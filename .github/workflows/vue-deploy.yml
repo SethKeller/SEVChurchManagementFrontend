@@ -20,7 +20,7 @@ jobs:
               uses: easingthemes/ssh-deploy@v2.1.1
               env:
                     SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-                   c ARGS: "-rltgoDzvO --delete"
+                    ARGS: "-rltgoDzvO --delete"
                     SOURCE: "dist/"
                     REMOTE_HOST: "team4.eaglesoftwareteam.com"
                     REMOTE_USER: ubuntu
