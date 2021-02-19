@@ -17,6 +17,10 @@ export default {
     Navbar
   }
 };
+
+// Default page title
+// TODO: update to current congregation name
+document.title = "Wilshire Church Management";
 </script>
 
 <style>
