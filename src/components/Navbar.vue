@@ -20,4 +20,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.navbar{
+    z-index: 100;
+    box-shadow: 0px -1px 4px 2px #555555;
+}
+</style>
