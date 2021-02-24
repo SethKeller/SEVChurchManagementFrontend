@@ -66,18 +66,13 @@
             })
         },
         onSubmit() {
-          // let newCongregation = {
-          //   "Name": this.form.name,
-          //   "Address": this.form.address,
-          //   "Phone": this.form.phone
-          // }
-          // this.updateCongregation(1, newCongregation);
           this.updateCongregation(1, this.congregation);
         },
         updateCongregation(id, congregation) {
           CongregationServices.updateCongregation(id, congregation)
             .then(() => {
               // this.$router.push('congregation');
+              console.log("congregation updated!");
             }) 
             .catch((error) => {
               this.message = error.response;
