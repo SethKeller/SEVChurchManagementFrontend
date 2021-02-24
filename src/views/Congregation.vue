@@ -1,10 +1,10 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" v-if="show">
+    <b-form @submit="onSubmit" v-if="congregation.Name">
       <b-form-group id="input-group-name" label="Congregation Name:" label-for="input-name">
         <b-form-input
           id="input-name"
-          v-model="form.name"
+          v-model="congregation.Name"
           placeholder="Enter name"
           required
         ></b-form-input>
@@ -13,7 +13,7 @@
       <b-form-group id="input-group-address" label="Congregation Address:" label-for="input-address">
         <b-form-input
           id="input-address"
-          v-model="form.address"
+          v-model="congregation.Address"
           placeholder="Enter name"
           required
         ></b-form-input>
@@ -22,7 +22,7 @@
       <b-form-group id="input-group-phone" label="Congregation Phone:" label-for="input-phone">
         <b-form-input
           id="input-phone"
-          v-model="form.phone"
+          v-model="congregation.Phone"
           placeholder="Enter phone number"
           required
         ></b-form-input>
@@ -40,12 +40,7 @@
     components: {},
       data() {
         return {
-          form: {
-            name: "",
-            address: "",
-            phone: "",
-          },
-          congregation: [],
+          congregation: {},
           show: true,
         };
       },
@@ -61,6 +56,7 @@
             .then(response => {
               this.congregation = response.data;
 
+              // update form fields with data pulled from DB congregation table
               this.form.name = this.congregation.Name;
               this.form.address = this.congregation.Address;
               this.form.phone = this.congregation.Phone;
@@ -70,17 +66,18 @@
             })
         },
         onSubmit() {
-          let newCongregation = {
-            "Name": this.form.name,
-            "Address": this.form.address,
-            "Phone": this.form.phone
-          }
-          this.updateCongregation(1, newCongregation);
+          // let newCongregation = {
+          //   "Name": this.form.name,
+          //   "Address": this.form.address,
+          //   "Phone": this.form.phone
+          // }
+          // this.updateCongregation(1, newCongregation);
+          this.updateCongregation(1, this.congregation);
         },
         updateCongregation(id, congregation) {
           CongregationServices.updateCongregation(id, congregation)
             .then(() => {
-              this.$router.push('congregation');
+              // this.$router.push('congregation');
             }) 
             .catch((error) => {
               this.message = error.response;
