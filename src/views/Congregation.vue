@@ -1,61 +1,31 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" v-if="show">
-      <b-form-group id="input-group-name" label="Congregation Name:" label-for="input-name">
-        <b-form-input
-          id="input-name"
-          v-model="form.name"
-          placeholder="Enter name"
-          required
-        ></b-form-input>
-      </b-form-group>
-      
-      <b-form-group id="input-group-address" label="Congregation Address:" label-for="input-address">
-        <b-form-input
-          id="input-address"
-          v-model="form.address"
-          placeholder="Enter name"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-phone" label="Congregation Phone:" label-for="input-phone">
-        <b-form-input
-          id="input-phone"
-          v-model="form.phone"
-          placeholder="Enter phone number"
-          required
-        ></b-form-input>
-      </b-form-group>
-      
-      <b-button type="submit" variant="primary">Submit</b-button>
-      </b-form>
+    <CongregationForm :congregation="congregation" v-on:formSubmitted="submitForm"/>
   </div>
 </template>
 
-
 <script>
   import CongregationServices from '../services/CongregationServices.js';
+  import CongregationForm from '../components/CongregationForm.vue';
   export default {
-    components: {},
+    components: {
+      CongregationForm
+    },
       data() {
         return {
-          form: {
-            name: "",
-            address: "",
-            phone: "",
-          },
-          congregation: [],
-          show: true,
+          congregation: []
         };
       },
       created() {
         // need a way to select MY church; current API returns either a list of congregations or you can request a congregation by ID
-        // defaulting congregation with id of 1 since we are only working with one church right now
+        // defaulting congregation with id of 1 since the church admin will only manage their own church
         // maybe before this page, we should ask the user to choose a congregation
         this.getCongregation(1);
       },
       methods: {
+        submitForm() {
+          this.updateCongregation(1, this.congregation);
+        },
         getCongregation(id) {
           CongregationServices.getCongregation(id)
             .then(response => {
@@ -68,14 +38,6 @@
             .catch(error => {
               this.message = error.response.data.message;
             })
-        },
-        onSubmit() {
-          let newCongregation = {
-            "Name": this.form.name,
-            "Address": this.form.address,
-            "Phone": this.form.phone
-          }
-          this.updateCongregation(1, newCongregation);
         },
         updateCongregation(id, congregation) {
           CongregationServices.updateCongregation(id, congregation)
