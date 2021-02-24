@@ -34,6 +34,12 @@ const routes = [
     name: "search",
     component: Searchtest
   },
+  {
+    path: "/member-list",
+    name: "Member List",
+    component: () =>
+      import("../views/member-list.vue")
+  }
 ];
 
 const router = new VueRouter({
