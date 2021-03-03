@@ -7,11 +7,7 @@
         <button v-on:click="nextPage">Next</button>
     </div>
     <br/>
-    <div id="search-bar">
-        <input type="search" v-model="searchQuery" />
-        <button v-on:click="runSearch">Search</button>
-    </div>
-    <br/>
+    
     <table>
         <tr>
             
@@ -22,8 +18,35 @@
 </template>
 
 <script>
-//import needed for components
+import MemberInfo from "@/components/MemberInfo.vue";
+
 export default {
-    
-}
+  name: "MemberDirectory",
+  components: {
+    MemberInfo
+  },
+  props: {},
+  data() {
+    return {
+      members: [],
+      message: "Loading...",
+      page: 1,
+    };
+  },
+  methods: {
+    getMemberList() {
+      // TODO - call services to get list from API
+      this.message = "Error: DB access not implemented";
+    }
+  },
+  created() {
+    // Get page number from URL
+    if (this.$route.query.page != undefined && this.$route.query.page != "")
+      this.page = parseInt(this.$route.query.page);
+    // Get member list from backend API
+    this.getMemberList();
+  }
+};
 </script>
+
+<style scoped></style>
