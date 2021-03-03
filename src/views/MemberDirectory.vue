@@ -16,19 +16,6 @@
     <MemberInfo class="m-2 d-md-inline-block" />
     <MemberInfo class="m-2 d-md-inline-block" />
     <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
 
     <!-- TODO: footer with pages OR infiniteload? -->
   </div>
@@ -36,6 +23,7 @@
 
 <script>
 import MemberInfo from "@/components/MemberInfo.vue";
+import MemberListServices from "@/services/MemberListServices.js";
 
 export default {
   name: "MemberDirectory",
@@ -54,7 +42,14 @@ export default {
   methods: {
     getMemberList() {
       // TODO - call services to get list from API
-      this.message = "Error: DB access not implemented";
+      MemberListServices.getMembers() //this.page, this.searchQuery)
+        .then(response => {
+          this.members = response.data;
+          this.message = "";
+        })
+        .catch(error => {
+          this.message = error.response.data.message;
+        });
     }
   },
   created() {
