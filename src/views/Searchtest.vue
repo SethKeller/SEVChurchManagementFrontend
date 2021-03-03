@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Search />
+    <Search v-on:search-submitted="doSomething"/>
+    {{ displayData }}
   </div>
 </template>
 
@@ -11,10 +12,16 @@ export default {
     Search
   },
   data() {
-    return {};
+    return {
+      displayData: ":3"
+    };
   },
   created() {},
-  methods: {}
+  methods: {
+    doSomething(result) {
+      this.displayData = result;
+    }
+  }
 };
 </script>
 

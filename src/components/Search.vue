@@ -1,16 +1,20 @@
 <template>
   <div>
-    <b-form @submit="onSubmit">
-      <b-form-input
-        id="input-name"
-        v-model="query"
-        placeholder="Search by name, email, phone number"
-        required
-      ></b-form-input>
+    <div>
+      <b-form @submit="onSubmit">
+        <b-form-input
+          id="input-name"
+          v-model="query"
+          placeholder="Search by name, email, family name"
+          required
+        ></b-form-input>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-    </b-form>
-    {{ response }}
+        <b-button type="submit" variant="primary">Submit</b-button>
+      </b-form>
+    </div>
+    <div>
+      <!-- checkbox here -->
+    </div>
   </div>
 </template>
 
@@ -36,7 +40,9 @@ export default {
         .then(res => {
           // just assign the response data to message which is displayed directly below the form
           // hook this up to a member-list page by emitting an array either memberID's the actualy JSON objects
-          this.response = res.data;
+          // this.response = res.data;
+          let result = res.data;
+          this.$emit("search-submitted", result);
         })
         .catch(error => {
           this.message = error.resposne;
