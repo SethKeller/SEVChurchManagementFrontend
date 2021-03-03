@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from '../views/Home.vue';
-import Congregation from '../views/Congregation.vue';
+import Home from "../views/Home.vue";
+import Congregation from "../views/Congregation.vue";
+import Searchtest from "../views/Searchtest.vue";
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,11 @@ const routes = [
     name: "Congregation",
     component: Congregation
   },
+  {
+    path: "/search",
+    name: "search",
+    component: Searchtest
+  }
 ];
 
 const router = new VueRouter({
