@@ -6,9 +6,10 @@
           :src="member.Picture"
           :alt="'Picture of ' + member.FirstName + ' ' + member.LastName"
           class="rounded-right"
+          style="max-width:250px;"
         />
       </b-col>
-      <b-col md="7" class="mx-auto">
+      <b-col md="7" class="mx-auto" style="min-width: 218px;">
         <!-- TODO: replace placeholder with real info -->
         <b-card-body :title="member.FirstName + ' ' + member.LastName">
           <b-card-text>
