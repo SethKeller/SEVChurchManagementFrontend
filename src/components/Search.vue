@@ -52,45 +52,30 @@ export default {
       SearchServices.searchPerson(query)
         .then(res => {
           let people = res.data;
-          let filteredPeople = [];
-          let nameFilter;
-          let familyFilter;
-          let emailFilter;
           let searchResult;
 
-          // if the user did not check any boxes then selected array length will be 0
           if (this.selected.length === 0) {
             searchResult = people;
           } else {
-            // filter by name
-            if (this.selected.includes("name")) {
-              nameFilter = people.filter(person => {
-                let name = person.FirstName + " " + person.LastName;
-                name = name.toLowerCase();
-                return name.includes(query);
-              });
-              filteredPeople = filteredPeople.concat(nameFilter);
-            }
-            // filter by family name
-            if (this.selected.includes("family")) {
-              familyFilter = people.filter(person => {
-                let familyName = person.familys.FamilyName;
-                familyName = familyName.toLowerCase();
-                return familyName.includes(query);
-              });
-              filteredPeople = filteredPeople.concat(familyFilter);
-            }
-            // filter by family name
-            if (this.selected.includes("email")) {
-              emailFilter = people.filter(person => {
-                let email = person.Email;
-                email = email.toLowerCase();
-                return email.includes(query);
-              });
-              filteredPeople = filteredPeople.concat(emailFilter);
-            }
-            searchResult = [...new Set(filteredPeople)];
+            searchResult = people.filter(person => {
+              let nameMatch = false;
+              let emailMatch = false;
+              let familyMatch = false;
+              let name = person.FirstName + " " + person.LastName;
+              name = name.toLowerCase();
+              let familyName = person.familys.FamilyName.toLowerCase();
+
+              if (this.selected.includes("name"))
+                nameMatch = name.includes(query);
+              if (this.selected.includes("family"))
+                familyMatch = familyName.includes(query);
+              if (this.selected.includes("email"))
+                emailMatch = person.Email.includes(query);
+
+              return nameMatch || emailMatch || familyMatch;
+            });
           }
+
           this.$emit("search-submitted", searchResult);
         })
         .catch(error => {
