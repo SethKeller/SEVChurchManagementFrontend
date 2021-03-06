@@ -1,7 +1,13 @@
 <template>
   <div>
     <Search v-on:search-submitted="doSomething"/>
-    {{ displayData }}
+    <!-- {{ displayData }} -->
+
+    <div class="displayResults">
+      <li v-for="person in people" :key="person.id">
+        {{ person.DisplayName }}
+      </li>
+    </div>
   </div>
 </template>
 
@@ -13,16 +19,22 @@ export default {
   },
   data() {
     return {
-      displayData: ":3"
+      displayData: ":3",
+      people: []
     };
   },
   created() {},
   methods: {
-    doSomething(result) {
-      this.displayData = result;
+    doSomething(people) {
+      this.displayData = people;
+      this.people = people;
     }
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+.displayResults {
+  margin-top: 20px;
+}
+</style>
