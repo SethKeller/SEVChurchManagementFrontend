@@ -22,7 +22,7 @@
         <b-dropdown-item to="/groups" exact exact-active-class="active">
           My Groups
         </b-dropdown-item>
-        <b-dropdown-item to="/member-info" exact exact-active-class="active">
+        <b-dropdown-item to="/Memberinfo" exact exact-active-class="active">
           Edit Member Information
         </b-dropdown-item>
       </b-nav-item-dropdown>
