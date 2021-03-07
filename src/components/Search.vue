@@ -9,7 +9,7 @@
           required
           shadow
         ></b-form-input>
-        <b-form-group label="Narrow your search:">
+        <b-form-group label="Narrow your search:" label-size="sm" class="mt-1">
           <b-form-checkbox-group
             id="checkbox-group-1"
             v-model="selected"
@@ -93,8 +93,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #search-form {
+  width: 50%;
   min-width: 40ch;
-  max-width: 55ch;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   text-align: left;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
