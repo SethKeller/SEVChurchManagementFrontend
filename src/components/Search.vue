@@ -77,13 +77,14 @@ export default {
               let name = person.FirstName + " " + person.LastName;
               name = name.toLowerCase();
               let familyName = person.familys.FamilyName.toLowerCase();
+              let email = person.Email.toLowerCase();
 
               if (this.selected.includes("name"))
                 nameMatch = name.includes(query);
               if (this.selected.includes("family"))
                 familyMatch = familyName.includes(query);
               if (this.selected.includes("email"))
-                emailMatch = person.Email.includes(query);
+                emailMatch = email.includes(query);
 
               return nameMatch || emailMatch || familyMatch;
             });
