@@ -1,12 +1,13 @@
 <template>
   <div>
-    <div>
+    <div id="search-form">
       <b-form @submit="onSubmit">
         <b-form-input
           id="input-name"
           v-model="query"
           placeholder="Search by name, email, family name"
           required
+          shadow
         ></b-form-input>
         <b-form-group label="Narrow your search:">
           <b-form-checkbox-group
@@ -14,6 +15,9 @@
             v-model="selected"
             :options="options"
             name="flavour-1"
+            buttons
+            button-variant="outline-primary"
+            size="sm"
           ></b-form-checkbox-group>
         </b-form-group>
         <b-button type="submit" variant="primary">Submit</b-button>
@@ -87,4 +91,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+#search-form {
+  min-width: 40ch;
+  max-width: 55ch;
+  padding: 1rem;
+  text-align: left;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+</style>
