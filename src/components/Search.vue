@@ -1,27 +1,36 @@
 <template>
   <div>
     <div id="search-form">
-      <b-form @submit="onSubmit">
+      <b-form inline @submit="onSubmit">
         <b-form-input
           id="input-name"
+          class="mb-2 mr-2 mb-sm-0 cols-xs-"
           v-model="query"
-          placeholder="Search by name, email, family name"
+          placeholder="Search for a member"
           required
           shadow
         ></b-form-input>
-        <b-form-group label="Narrow your search:" label-size="sm" class="mt-1">
-          <b-form-checkbox-group
-            id="checkbox-group-1"
-            v-model="selected"
-            :options="options"
-            name="flavour-1"
-            buttons
-            button-variant="outline-primary"
-            size="sm"
-          ></b-form-checkbox-group>
-        </b-form-group>
+
         <b-button type="submit" variant="primary">Submit</b-button>
       </b-form>
+
+      <div class="mt-2">
+        <b-button v-b-toggle.collapse-1 variant="outline-secondary" size="sm">Filter</b-button>
+        <b-collapse id="collapse-1" class="mt-2">
+          <b-card>
+            <b-form-checkbox-group
+              id="checkbox-group-1"
+              class="mb-2 mb-sm-0"
+              v-model="selected"
+              :options="options"
+              name="member-attribute"
+              buttons
+              button-variant="outline-success"
+              size="sm"
+            ></b-form-checkbox-group>
+          </b-card>
+        </b-collapse>
+      </div>
     </div>
   </div>
 </template>
@@ -93,8 +102,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #search-form {
-  width: 50%;
-  min-width: 40ch;
+  /* width: 100%; */
+  /* min-width: 35ch; */
   display: flex;
   flex-direction: column;
   padding: 1rem;
