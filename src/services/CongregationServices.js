@@ -23,6 +23,5 @@ export default {
   },
   deleteCongregation(congregationid) {
     return apiClient.delete("congregations/" + congregationid);
-  },
-
+  }
 };
