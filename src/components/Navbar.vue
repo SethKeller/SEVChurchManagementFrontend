@@ -1,8 +1,8 @@
 <template>
-  <div class="navbar bg-dark text-light px-4 py-3 mb-4">
-    <b-nav pills>
-      <!-- TODO: change this to current congregation name -->
-      <h3 class="my-auto pr-4">Wilshire Church of Christ</h3>
+  <b-navbar type="dark" sticky class="bg-dark text-light px-4 py-3 mb-4">
+    <!-- TODO: change this to current congregation name -->
+    <h3 class="my-auto pr-4">Wilshire Church of Christ</h3>
+    <b-navbar-nav class="nav-pills">
       <b-nav-item to="/" exact exact-active-class="active">
         Home
       </b-nav-item>
@@ -44,8 +44,8 @@
           Edit Congregation Info
         </b-dropdown-item>
       </b-nav-item-dropdown>
-    </b-nav>
-  </div>
+    </b-navbar-nav>
+  </b-navbar>
 </template>
 
 <script>
@@ -59,5 +59,9 @@ export default {
 .navbar {
   z-index: 100;
   box-shadow: 0px -1px 4px 2px #555555;
+}
+.nav-link {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
 }
 </style>
