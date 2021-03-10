@@ -86,8 +86,8 @@
             
           </b-col>
         </b-row>
-          <b-button type="submit"  href="/" variant="primary">Back</b-button>
-          
+          <b-button type="submit" to="/" variant="primary">Back</b-button>
+          &nbsp;
         <b-button type="submit" variant="primary">Submit</b-button>
       </b-container>
     </b-form>

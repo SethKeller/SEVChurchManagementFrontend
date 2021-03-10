@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" v-if="congregation.Name">
+    <b-form @submit="onSubmit">
       <b-form-group
         id="input-group-name"
         label="Congregation Name:"
@@ -39,7 +39,7 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button type="submit"  href="/" variant="primary">Back</b-button>
+      <b-button type="submit" to="/" variant="primary">Back</b-button>&nbsp;
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
   </div>
