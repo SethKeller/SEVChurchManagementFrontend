@@ -6,7 +6,7 @@
 
     <div class="displayResults">
       <li v-for="person in people" :key="person.id">
-        {{ person.DisplayName }}, {{ person.familys.FamilyName }}, {{ person.Email }}
+        {{ person.FirstName }} {{ person.LastName}} (Display name: {{ person.DisplayName }}), {{ person.Phone }}, {{ person.Email }}
       </li>
     </div>
   </div>
