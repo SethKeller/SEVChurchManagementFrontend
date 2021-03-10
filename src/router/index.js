@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from '../views/Home.vue';
-import Congregation from '../views/Congregation.vue';
+import Home from "../views/Home.vue";
+import Congregation from "../views/Congregation.vue";
+import Searchtest from "../views/Searchtest.vue";
 import Member from '../views/Memberinfo.vue';
 import MemberDirectory from "../views/MemberDirectory.vue";
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/memberinfo",
     name: "Member",
     component: Member
+  },
+  {
+    path: "/search",
+    name: "search",
+    component: Searchtest
   },
 ];
 
