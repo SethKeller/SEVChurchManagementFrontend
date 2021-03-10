@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body class="overflow-hidden shadow" style="max-width: 420px;">
+  <b-card no-body class="overflow-hidden shadow" style="max-width: 450px;">
     <b-row no-gutters>
       <b-col md="5">
         <b-card-img
@@ -9,12 +9,13 @@
           style="max-width:250px;"
         />
       </b-col>
-      <b-col md="7" class="mx-auto" style="min-width: 218px;">
+      <b-col md="7" class="mx-auto" style="min-width: 248px;">
         <!-- TODO: replace placeholder with real info -->
         <b-card-body :title="member.FirstName + ' ' + member.LastName">
           <b-card-text>
-            <i>Email:</i> {{ member.Email }}<br />
-            <i>Phone:</i> {{ member.Phone }}
+            <i>Contact:</i><br />
+            {{ member.Email }}<br />
+            {{ member.Phone }}
           </b-card-text>
         </b-card-body>
       </b-col>
@@ -44,7 +45,7 @@ export default {
     else {
       if (this.member.Picture == undefined) {
         this.member.Picture =
-          "https://qph.fs.quoracdn.net/main-thumb-247285578-200-hzqdjetzezpphiwkjnrnsynmdtylybjy.jpeg";
+          Math.random() > 0.5 ? "https://qph.fs.quoracdn.net/main-thumb-247285578-200-hzqdjetzezpphiwkjnrnsynmdtylybjy.jpeg" : "https://images.squarespace-cdn.com/content/v1/588921712e69cfac18fe17a2/1510150601760-T6D3J73PH8NMMQMYXLIS/ke17ZwdGBToddI8pDm48kNiEM88mrzHRsd1mQ3bxVct7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0s0XaMNjCqAzRibjnE_wBlkZ2axuMlPfqFLWy-3Tjp4nKScCHg1XF4aLsQJlo6oYbA/Jolie_020+Square.jpg";
       }
       if (this.member.Phone == undefined) {
         this.member.Phone = "Not available";

@@ -12,11 +12,6 @@
     />
     <!-- TEMPORARY TEST CARDS: -->
     <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
-    <MemberInfo class="m-2 d-md-inline-block" />
 
     <!-- TODO: footer with pages OR infiniteload? -->
   </div>
