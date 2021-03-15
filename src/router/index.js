@@ -5,6 +5,7 @@ import Congregation from "../views/Congregation.vue";
 import Searchtest from "../views/Searchtest.vue";
 import Member from '../views/Memberinfo.vue';
 import MemberDirectory from "../views/MemberDirectory.vue";
+import MemberList from "../views/MemberList.vue";
 
 Vue.use(VueRouter);
 
@@ -37,9 +38,7 @@ const routes = [
   {
     path: "/member-list",
     name: "Member List",
-    component: () =>
-      import("../views/member-list.vue")
-  }
+    component: MemberList
 ];
 
 const router = new VueRouter({
