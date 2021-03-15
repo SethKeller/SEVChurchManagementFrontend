@@ -39,6 +39,7 @@ const routes = [
     path: "/member-list",
     name: "Member List",
     component: MemberList
+  },
 ];
 
 const router = new VueRouter({
