@@ -40,6 +40,7 @@ const routes = [
     name: "Member List",
     component: MemberList
   },
+
 ];
 
 const router = new VueRouter({
