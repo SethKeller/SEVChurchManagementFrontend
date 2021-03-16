@@ -15,18 +15,71 @@
       </b-form-group>
 
       <b-form-group
-        id="input-group-address"
-        label="Congregation Address:"
-        label-for="input-address"
+        id="input-group-city"
+        label="Congregation City:"
+        label-for="input-city"
       >
         <b-form-input
-          id="input-address"
-          v-model="congregation.Address"
-          placeholder="Enter name"
+          id="input-City"
+          v-model="congregation.City"
+          placeholder="Enter city"
           required
         ></b-form-input>
+        
       </b-form-group>
-
+      <b-form-group
+        id="input-group-state"
+        label="Congregation State:"
+        label-for="input-state"
+      >
+        <b-form-input
+          id="input-State"
+          v-model="congregation.State"
+          placeholder="Enter State"
+          required
+        ></b-form-input>
+        
+      </b-form-group>
+       <b-form-group
+        id="input-group-zipcode"
+        label="Congregation Zipcode:"
+        label-for="input-zipcode"
+      >
+        <b-form-input
+          id="input-Zipcode"
+          v-model="congregation.Zipcode"
+          placeholder="Enter Zipcode"
+          required
+        ></b-form-input>
+        
+      </b-form-group>
+      <b-form-group
+        id="input-group-streetaddress"
+        label="Congregation Street Address:"
+        label-for="input-streetaddress"
+      >
+        <b-form-input
+          id="input-StreetAddress"
+          v-model="congregation.StreetAddress"
+          placeholder="Enter street Address"
+          required
+        ></b-form-input>
+        
+      </b-form-group>
+      <b-form-group
+        id="input-group-mailingAddress"
+        label="Congregation Mailing Address:"
+        label-for="input-mailingAddress"
+      >
+        <b-form-input
+          id="input-MailingAdress"
+          v-model="congregation.MailingAddress"
+          placeholder="Enter Mailing Address"
+          required
+        ></b-form-input>
+        
+      </b-form-group>
+      
       <b-form-group
         id="input-group-phone"
         label="Congregation Phone:"
@@ -39,7 +92,7 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button type="submit"  href="/" variant="primary">Back</b-button>
+    <b-button type="submit"  href="/" variant="primary">Back</b-button>
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
   </div>
