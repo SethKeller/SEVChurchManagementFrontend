@@ -2,16 +2,14 @@
   <div class="">
     <h1 class="pb-3">Church Directory</h1>
     <h4>{{ message }}</h4>
-    <!-- TODO: add basic search bar -->
-    <!-- TODO: build dynamic grid of info cards -->
+    
+    <Search v-on:search-submitted="doSearch" class="m-auto pb-3" style="width:340px" />
     <MemberInfo
       v-for="member in members"
       :key="member.LASTNAME"
       :member="member"
       class="m-2 d-md-inline-block"
     />
-    <!-- TEMPORARY TEST CARDS: -->
-    <MemberInfo class="m-2 d-md-inline-block" />
 
     <!-- TODO: footer with pages OR infiniteload? -->
   </div>
@@ -20,24 +18,25 @@
 <script>
 import MemberInfo from "@/components/MemberInfo.vue";
 import MemberListServices from "@/services/MemberListServices.js";
+import Search from "@/components/Search.vue";
 
 export default {
   name: "MemberDirectory",
   components: {
-    MemberInfo
+    MemberInfo,
+    Search
   },
   props: {},
   data() {
     return {
       members: [],
       message: "Loading...",
-      page: 1,
       searchQuery: ""
     };
   },
   methods: {
     getMemberList() {
-      // TODO - call services to get list from API
+      // Load full member list to start with
       MemberListServices.getMembers() //this.page, this.searchQuery)
         .then(response => {
           this.members = response.data;
@@ -46,12 +45,16 @@ export default {
         .catch(error => {
           this.message = error.response.data.message;
         });
+    },
+    doSearch(members) {
+      // Get member list from search component
+      this.members = members;
     }
   },
   created() {
-    // Get page number from URL
-    if (this.$route.query.page != undefined && this.$route.query.page != "")
-      this.page = parseInt(this.$route.query.page);
+    // Get search query from URL
+    if (this.$route.query.search != undefined && this.$route.query.search != "")
+      this.searchQuery = this.$route.query.search;
     // Get member list from backend API
     this.getMemberList();
   }

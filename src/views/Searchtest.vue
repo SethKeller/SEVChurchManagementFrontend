@@ -1,12 +1,13 @@
 <template>
   <div>
     <div id="search-box">
-      <Search v-on:search-submitted="doSomething"/>
+      <Search v-on:search-submitted="doSomething" />
     </div>
 
     <div class="displayResults">
       <li v-for="person in people" :key="person.id">
-        {{ person.FirstName }} {{ person.LastName}} (Display name: {{ person.DisplayName }}), {{ person.Phone }}, {{ person.Email }}
+        {{ person.FirstName }} {{ person.LastName }} (Display name:
+        {{ person.DisplayName }}), {{ person.Phone }}, {{ person.Email }}
       </li>
     </div>
   </div>
