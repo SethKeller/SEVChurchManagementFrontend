@@ -100,7 +100,7 @@ export default {
               if (person.Email) {
                 email = person.Email.toLowerCase();
               } else {
-                email = "not defined";
+                email = "";
               }
 
               if (this.selected.includes("name"))
