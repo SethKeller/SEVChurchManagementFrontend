@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Congregation from '../views/Congregation.vue';
 import Member from '../views/Memberinfo.vue';
 import MemberDirectory from "../views/MemberDirectory.vue";
+import  FamilyEdit from "../views/FamilyEdit.vue"
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/memberinfo",
     name: "Member",
     component: Member
+  },
+  {
+    path: "/family-info",
+    name: "FamilyEdit",
+    component: FamilyEdit
   },
 ];
 
