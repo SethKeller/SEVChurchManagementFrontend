@@ -4,7 +4,6 @@
   </div>
 </template>
 
-
 <script>
 import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
@@ -41,8 +40,8 @@ export default {
         .catch((error) => {
           this.message = error.response.data.message;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

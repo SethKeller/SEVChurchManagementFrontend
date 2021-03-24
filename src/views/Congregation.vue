@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="parent">
     <b-alert
       :show="alertCountdown"
       dismissible
@@ -10,6 +10,7 @@
     >
       Congregation info updated!
     </b-alert>
+    <div id="congregation-form">
     <b-form @submit="onSubmit" style="max-width:600px" class="mx-auto">
       <b-form-group
         id="input-group-name"
@@ -89,9 +90,12 @@
           required
         ></b-form-input>
       </b-form-group>
-    <b-button type="submit"  href="/" variant="primary">Back</b-button>
-      <b-button type="submit" variant="primary">Submit</b-button>
+      <div id="form-button">
+        <b-button type="submit" to="/" variant="primary">Back</b-button>&nbsp;
+        <b-button type="submit" variant="primary">Submit</b-button>
+      </div>
     </b-form>
+    </div>
   </div>
 </template>
 
@@ -151,4 +155,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+.parent {
+  display: grid;
+  place-items: center;
+}
+
+#congregation-form {
+  width: 50%;
+  text-align: left;
+}
+</style>
