@@ -23,6 +23,5 @@ export default {
   },
   deletePeople(personid) {
     return apiClient.delete("persons/" + personid);
-  },
-
+  }
 };

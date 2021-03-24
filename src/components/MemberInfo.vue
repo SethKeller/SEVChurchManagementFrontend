@@ -41,14 +41,10 @@ export default {
         Email: "c.friedricksen@aol.com"
       };
     }
-    // Default photo (until photos are implemented)
+    // No phone number message
     else {
-      if (this.member.Picture == undefined) {
-        this.member.Picture =
-          Math.random() > 0.5 ? "https://qph.fs.quoracdn.net/main-thumb-247285578-200-hzqdjetzezpphiwkjnrnsynmdtylybjy.jpeg" : "https://images.squarespace-cdn.com/content/v1/588921712e69cfac18fe17a2/1510150601760-T6D3J73PH8NMMQMYXLIS/ke17ZwdGBToddI8pDm48kNiEM88mrzHRsd1mQ3bxVct7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0s0XaMNjCqAzRibjnE_wBlkZ2axuMlPfqFLWy-3Tjp4nKScCHg1XF4aLsQJlo6oYbA/Jolie_020+Square.jpg";
-      }
       if (this.member.Phone == undefined) {
-        this.member.Phone = "Not available";
+        this.member.Phone = "Phone not available";
       }
     }
   }

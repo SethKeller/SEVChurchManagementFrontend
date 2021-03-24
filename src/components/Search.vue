@@ -70,14 +70,38 @@ export default {
           if (this.selected.length === 0) {
             searchResult = people;
           } else {
+            console.log(people);
             searchResult = people.filter(person => {
               let nameMatch = false;
               let emailMatch = false;
               let familyMatch = false;
-              let name = person.FirstName + " " + person.LastName;
+              let name;
+              let familyName;
+              let email;
+
+              if (person.FirstName && person.LastName) {
+                name = person.FirstName + " " + person.LastName;
+              } else if (person.FirstName) {
+                name = person.FirstName;
+              } else if (person.LastName) {
+                name = person.LastName;
+              } else {
+                name = "";
+              }
               name = name.toLowerCase();
-              let familyName = person.familys.FamilyName.toLowerCase();
-              let email = person.Email.toLowerCase();
+
+              if (person.familys == null) {
+                console.log("undefined family");
+                familyName = "";
+              } else {
+                familyName = person.familys.FamilyName.toLowerCase();
+              }
+
+              if (person.Email) {
+                email = person.Email.toLowerCase();
+              } else {
+                email = "";
+              }
 
               if (this.selected.includes("name"))
                 nameMatch = name.includes(query);
@@ -89,6 +113,7 @@ export default {
               return nameMatch || emailMatch || familyMatch;
             });
           }
+          console.log(searchResult);
 
           this.$emit("search-submitted", searchResult);
         })
