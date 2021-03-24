@@ -1,6 +1,16 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" v-if="congregation.Name">
+    <b-alert
+      :show="alertCountdown"
+      dismissible
+      fade
+      variant="success"
+      @dismissed="alertCountdown=0"
+      @dismiss-count-down="alertCountdownChanged"
+    >
+      Congregation info updated!
+    </b-alert>
+    <b-form @submit="onSubmit" style="max-width:600px" class="mx-auto">
       <b-form-group
         id="input-group-name"
         label="Congregation Name:"
@@ -20,7 +30,7 @@
         label-for="input-city"
       >
         <b-form-input
-          id="input-City"
+          id="input-city"
           v-model="congregation.City"
           placeholder="Enter city"
           required
@@ -33,9 +43,9 @@
         label-for="input-state"
       >
         <b-form-input
-          id="input-State"
+          id="input-state"
           v-model="congregation.State"
-          placeholder="Enter State"
+          placeholder="Enter state"
           required
         ></b-form-input>
         
@@ -46,9 +56,9 @@
         label-for="input-zipcode"
       >
         <b-form-input
-          id="input-Zipcode"
+          id="input-zipcode"
           v-model="congregation.Zipcode"
-          placeholder="Enter Zipcode"
+          placeholder="Enter zipcode"
           required
         ></b-form-input>
         
@@ -59,22 +69,9 @@
         label-for="input-streetaddress"
       >
         <b-form-input
-          id="input-StreetAddress"
+          id="input-streetaddress"
           v-model="congregation.StreetAddress"
-          placeholder="Enter street Address"
-          required
-        ></b-form-input>
-        
-      </b-form-group>
-      <b-form-group
-        id="input-group-mailingAddress"
-        label="Congregation Mailing Address:"
-        label-for="input-mailingAddress"
-      >
-        <b-form-input
-          id="input-MailingAdress"
-          v-model="congregation.MailingAddress"
-          placeholder="Enter Mailing Address"
+          placeholder="Enter street address"
           required
         ></b-form-input>
         
@@ -105,7 +102,8 @@ export default {
   data() {
     return {
       congregation: {},
-      show: true
+      show: true,
+      alertCountdown: 0
     };
   },
   created() {
@@ -121,9 +119,9 @@ export default {
           this.congregation = response.data;
 
           // update form fields with data pulled from DB congregation table
-          this.form.name = this.congregation.Name;
-          this.form.address = this.congregation.Address;
-          this.form.phone = this.congregation.Phone;
+          //this.form.name = this.congregation.Name;
+          //this.form.address = this.congregation.Address;
+          //this.form.phone = this.congregation.Phone;
         })
         .catch(error => {
           this.message = error.response.data.message;
@@ -136,11 +134,18 @@ export default {
       CongregationServices.updateCongregation(id, congregation)
         .then(() => {
           // this.$router.push('congregation');
-          console.log("congregation updated!");
+          console.log("Congregation updated!");
+          this.showAlert(); // Show success alert
         })
         .catch(error => {
           this.message = error.response;
         });
+    },
+    alertCountdownChanged(dismissCountDown) {
+        this.alertCountdown = dismissCountDown;
+    },
+    showAlert() {
+        this.alertCountdown = 5;
     }
   }
 };
