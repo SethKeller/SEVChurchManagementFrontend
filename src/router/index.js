@@ -6,6 +6,7 @@ import Searchtest from "../views/Searchtest.vue";
 import Member from "../views/Memberinfo.vue";
 import MemberDirectory from "../views/MemberDirectory.vue";
 import  FamilyEdit from "../views/FamilyEdit.vue"
+import PageNotFound from "../views/PageNotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
     path: "/search",
     name: "search",
     component: Searchtest
+  },
+  {
+    path: "*",
+    name: "PageNotFound",
+    component: PageNotFound
   }
 ];
 
