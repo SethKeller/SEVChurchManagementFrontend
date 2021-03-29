@@ -1,5 +1,10 @@
 <template>
-  <b-navbar type="dark" sticky class="bg-dark text-light px-4 py-3 mb-4">
+  <b-navbar
+    type="dark"
+    sticky
+    class="bg-dark text-light px-4 py-3 mb-4"
+    v-if="currentUser"
+  >
     <!-- TODO: change this to current congregation name -->
     <h3 class="my-auto pr-4">Wilshire Church of Christ</h3>
     <b-navbar-nav class="nav-pills">
@@ -30,6 +35,7 @@
         text="Administration"
         toggle-class="nav-link-custom"
         left
+        v-if="showAdminBoard"
       >
         <b-dropdown-item to="/member-list" exact exact-active-class="active">
           Full Member List
@@ -44,14 +50,35 @@
           Edit Congregation Info
         </b-dropdown-item>
       </b-nav-item-dropdown>
+      <b-nav-item exact exact-active-class="active" href @click.prevent="logOut">
+        Logout
+      </b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
 
 <script>
 export default {
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    showAdminBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('ROLE_ADMIN');
+      }
+
+      return false;
+    }
+  },
   name: "Navbar",
-  props: {}
+  props: {},
+  methods: {
+    logOut() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
+    }
+  }
 };
 </script>
 
