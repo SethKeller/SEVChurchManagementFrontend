@@ -51,6 +51,18 @@ const routes = [
     name: "profile",
     // lazy-loaded
     component: () => import("../views/Profile.vue")
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    // lazy-loaded
+    component: () => import("../views/BoardAdmin.vue")
+  },
+  {
+    path: "/user",
+    name: "user",
+    // lazy-loaded
+    component: () => import("../views/BoardUser.vue")
   }
 ];
 
