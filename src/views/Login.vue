@@ -1,46 +1,43 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+  <div class="parent">
+    <img class="" alt="Wilshire logo" src="../assets/wilshire-transparent.png" width="300px" />
+
+    <b-card
+      title=""
+      img-src=""
+      img-alt=""
+      img-top
+      style=""
+      class="mr-5 ml-5 card"
+    >
       <form name="form" @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            v-model="user.email"
-            type="text"
-            class="form-control"
-            name="email"
-          />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            v-model="user.password"
-            type="password"
-            class="form-control"
-            name="password"
-          />
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
-            <span
-              v-show="loading"
-              class="spinner-border spinner-border-sm"
-            ></span>
-            <span>Login</span>
-          </button>
-        </div>
+        <b-form-input
+          id="input-email"
+          v-model="user.email"
+          type="email"
+          placeholder="Email"
+          class="mb-2"
+          required
+        ></b-form-input>
+
+        <b-form-input
+          id="input-password"
+          v-model="user.password"
+          type="password"
+          placeholder="Password"
+          class="mb-3"
+          required
+        ></b-form-input>
+
+        <b-button block type="submit" variant="primary">Submit</b-button>
+
         <div class="form-group">
           <div v-if="message" class="alert alert-danger" role="alert">
             {{ message }}
           </div>
         </div>
       </form>
-    </div>
+    </b-card>
   </div>
 </template>
 
@@ -89,36 +86,23 @@ export default {
 </script>
 
 <style scoped>
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
+.parent {
+  display: grid;
+  place-items: center;
+  margin-top: 75px;
 }
 
 .card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  width: clamp(23ch, 50%, 46ch);
+  display: flex;
+  flex-direction: column;
+  /* padding: 1rem; */
+  /* max-width: 20rem; */
 }
 
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
+.parent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>
