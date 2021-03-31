@@ -5,7 +5,7 @@ import Congregation from "../views/Congregation.vue";
 import Searchtest from "../views/Searchtest.vue";
 import Member from '../views/Memberinfo.vue';
 import MemberDirectory from "../views/MemberDirectory.vue";
-import MemberList from "../views/MemberList.vue";
+import MemberList from "../views/member-list.vue";
 
 Vue.use(VueRouter);
 
