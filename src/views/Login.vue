@@ -31,11 +31,7 @@
 
         <b-button block type="Login" variant="primary">Log In</b-button>
 
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
-        </div>
+        <b-alert class="mt-3" :show="hasError" variant="danger">{{ message }}</b-alert>
       </form>
     </b-card>
   </div>
@@ -56,6 +52,9 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
+    },
+    hasError() {
+      return this.message.length;
     }
   },
   created() {
@@ -65,6 +64,7 @@ export default {
   },
   methods: {
     handleLogin() {
+      this.message = ""; // reset error message for alert box
       this.loading = true;
       if (this.user.email && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
@@ -73,10 +73,6 @@ export default {
           },
           error => {
             this.loading = false;
-            // this.message =
-            //   (error.response && error.response.data) ||
-            //   error.message ||
-            //   error.toString();
             this.message =
               error.response.data.message || "Error logging in. Try again.";
           }
