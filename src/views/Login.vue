@@ -29,7 +29,7 @@
           required
         ></b-form-input>
 
-        <b-button block type="submit" variant="primary">Submit</b-button>
+        <b-button block type="Login" variant="primary">Log In</b-button>
 
         <div class="form-group">
           <div v-if="message" class="alert alert-danger" role="alert">
@@ -73,10 +73,12 @@ export default {
           },
           error => {
             this.loading = false;
+            // this.message =
+            //   (error.response && error.response.data) ||
+            //   error.message ||
+            //   error.toString();
             this.message =
-              (error.response && error.response.data) ||
-              error.message ||
-              error.toString();
+              error.response.data.message || "Error logging in. Try again.";
           }
         );
       }
