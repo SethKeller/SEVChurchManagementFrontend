@@ -1,39 +1,41 @@
 <template>
-<div>
-    <h1> Member List</h1>
+<div class=" ">
+    <h1 class="pb-3"> Member List</h1>
     <h3>{{ message }}</h3>
     <div id="page-buttons">
         <!--button v-on:click="prevPage">Prev</button>
         <button v-on:click="nextPage">Next</button-->
     </div>
-    <br/>
-    
+    <br/>    
     <table class= "mx-auto">
         <tr>
             <th class="list-header" width= "300px">First Name</th>
             <th class="list-header" width= "300px">Last Name</th>
         </tr>   
-        <MemberListDisplay v-for="member in members" :key="member.member_name" :member="member"/>
+        <MemberInfo v-for="member in members" :key="member.LASTNAME" :member="member"/>
     </table>
 </div>
 </template>
 
 <script>
-//import MemberInfo from "@/components/MemberInfo.vue";
+import MemberInfo from "@/components/MemberInfo.vue";
 import MemberListServices from "@/services/MemberListServices.js";
 export default {
-  //name: "MemberDirectory",
-  components: {},
+  name: "MemberDirectory",
+  components: {
+    MemberInfo
+  },
   props: {},
   data() {
     return {
       members: [],
       message: "Loading...",
       page: 1,
+      searchQuery: ""
     };
   },
   methods: {
-    getMemberList: function() {
+    getMemberList() {
       // TODO - call services to get list from API
        MemberListServices.getMembers() //this.page, this.searchQuery)
         .then(response => {
