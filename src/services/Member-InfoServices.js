@@ -23,5 +23,15 @@ export default {
   },
   deletePeople(personid) {
     return apiClient.delete("persons/" + personid);
+  },
+  
+  // Research resources:
+  //
+  // Bootstrap-vue form-file
+  // Mozilla File webapi + Mozilla FileReader webapi
+  // Stackoverflow 'how to post a file from a form with axios'
+  uploadPicture(file) {
+    // TODO: replace stub
+    console.info("Upload image called: "+file);
   }
 };
