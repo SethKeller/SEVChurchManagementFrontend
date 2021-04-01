@@ -1,6 +1,11 @@
 <template>
   <div class="parent">
-    <img class="" alt="Wilshire logo" src="../assets/wilshire-transparent.png" width="300px" />
+    <img
+      class=""
+      alt="Wilshire logo"
+      src="../assets/wilshire-transparent.png"
+      width="300px"
+    />
 
     <b-card
       title=""
@@ -31,7 +36,9 @@
 
         <b-button block type="Login" variant="primary">Log In</b-button>
 
-        <b-alert class="mt-3" :show="hasError" variant="danger">{{ message }}</b-alert>
+        <b-alert class="mt-3" :show="hasError" variant="danger">{{
+          message
+        }}</b-alert>
       </form>
     </b-card>
   </div>
@@ -59,7 +66,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push("/profile");
+      this.$router.push({ name: "Home" });
     }
   },
   methods: {
@@ -69,7 +76,7 @@ export default {
       if (this.user.email && this.user.password) {
         this.$store.dispatch("auth/login", this.user).then(
           () => {
-            this.$router.push("Home");
+            this.$router.push({ name: "Home" });
           },
           error => {
             this.loading = false;
