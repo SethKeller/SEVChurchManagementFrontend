@@ -3,6 +3,13 @@
     <b-img class="display-picture" />
     <h5>Upload new picture:</h5>
     <!-- TODO: add file form -->
+    <b-form-file
+         v-model="pictureFile"
+         :state="Boolean(pictureFile)"
+         placeholder="Choose a picture file or drop it here..."
+         drop-placeholder="Drop file here..."
+    ></b-form-file>
+    <p v-if="pictureFile">Selected file: {{ pictureFile ? pictureFile.name : '' }}</p>
   </div>
 </template>
 
@@ -16,7 +23,7 @@ export default {
   },
   data() {
     return {
-      //pictureFile: null
+      pictureFile: null
     };
   },
   methods: {
