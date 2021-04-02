@@ -22,14 +22,6 @@
       >
         Messages
       </b-nav-item>
-      <b-nav-item
-        to="/events"
-        exact
-        exact-active-class="active"
-        v-if="loggedIn"
-      >
-        Events
-      </b-nav-item>
       <b-nav-item-dropdown
         text="My Info"
         toggle-class="nav-link-custom"
