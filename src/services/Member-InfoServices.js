@@ -12,6 +12,9 @@ const apiClient = axios.create({
 });
 
 export default {
+  getheadoFamily(){
+    return apiClient.get("persons/gethead");
+  },
   getPeople(personid) {
     return apiClient.get("persons/" + personid);
   },

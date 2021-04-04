@@ -46,12 +46,12 @@
             <label for="input-group-DofBirth">Date of Birth:</label>
           </b-col>
           <b-col sm="6">
-            <b-form-input
+            <datepicker
               id="input-group-DofBirth"
               v-model="member.DateofBirth"
               required
               placeholder="Date of Birth"
-            ></b-form-input>
+            ></datepicker>
           </b-col>
         </b-row>
         <b-row class="my-5">
@@ -64,7 +64,10 @@
               v-model="member.Phone"
               required
               placeholder="Phone number"
-            ></b-form-input>
+              @input="acceptNumber"
+            >
+              ></b-form-input
+            >
           </b-col>
         </b-row>
         <b-row class="my-6">
@@ -77,16 +80,17 @@
               v-model="member.HousePhone"
               required
               placeholder="House Phone"
+              @input="acceptNumber2"
             ></b-form-input>
           </b-col>
-        </b-row>  
-        <br>
+        </b-row>
+        <br />
         <b-row>
           <b-col class="mr-2"
             ><b-button variant="success" type="submit">Submit</b-button></b-col
           >
           <b-col class="mr-2"
-            ><b-button variant="primary" to="/" >Home</b-button></b-col
+            ><b-button variant="primary" to="/">Home</b-button></b-col
           >
         </b-row>
       </b-container>
@@ -94,23 +98,46 @@
   </div>
 </template>
 <script>
+import Datepicker from 'vuejs-datepicker';
 export default {
   props: {
     member: Object,
   },
+  components: {
+    Datepicker
+  },
   data() {
     return {
-      show: true,
+      show: true
     };
   },
   methods: {
     onSubmit() {
       this.$emit("formSubmitted");
     },
+    acceptNumber() {
+      var x = this.member.Phone.replace(/\D/g, "").match(
+        /(\d{0,3})(\d{0,3})(\d{0,4})/
+      );
+      this.member.Phone = !x[2]
+        ? x[1]
+        : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+    },
+      acceptNumber2() {
+      var x = this.member.HousePhone.replace(/\D/g, "").match(
+        /(\d{0,3})(\d{0,3})(\d{0,4})/
+      );
+      this.member.HousePhone = !x[2]
+        ? x[1]
+        : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+    },
+  },
+  mounted() {
+    this.acceptNumber();
+    this.acceptNumber2();
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped></style>
-

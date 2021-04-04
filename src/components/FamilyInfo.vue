@@ -1,10 +1,10 @@
 <template>
-  <b-card no-body class="overflow-hidden shadow" style="max-width: 450px">
+  <b-card no-body class="overflow-hidden shadow" style="max-width: 2000px">
     <b-row no-gutters>
       <b-col md="5">
         <b-card-img
           :src="member.Picture"
-          :alt="'Picture of ' + member.FirstName + ' ' + member.LastName"
+          :alt="'Picture of ' + member.FirstName != null ? member.FirstName : ' '+ ' ' + member.LastName != null ? member.LastName : ''"
           class="rounded-right"
           style="max-width: 250px"
         />
@@ -18,12 +18,14 @@
             {{ member.Phone }}
           </b-card-text>
           <b-card-text>
-            <b-button v-b-toggle="`id-${member.id}`" variant="primary"> Edit</b-button>
+            <b-button v-b-toggle="`id-${member.id}`" variant="primary">
+              Edit</b-button
+            >
           </b-card-text>
         </b-card-body>
       </b-col>
     </b-row>
-    <b-row md="12" class="mx-auto" style="min-width: 248px">
+    <b-row md="12" class="mx-auto" style="max-width: 500px">
       <b-sidebar :id="`id-${member.id}`" title="Sidebar" right shadow>
         <div class="px-3 py-2">
           <div>
@@ -31,6 +33,12 @@
               :member="member"
               v-on:formSubmitted="submitForm(member.id)"
             />
+            <div>
+              <AddressEdit
+              :member="member"
+               v-on:formSubmitted="submitForm(address.id)"        
+              />
+            </div>
           </div>
         </div>
       </b-sidebar>
@@ -41,13 +49,23 @@
 import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
 
+import AddressEdit from "../components/AddressEdit";
+import AddressService from "../services/AddressServices";
+
 export default {
   name: "MemberInfo",
   components: {
     MemberEditInfo,
+    AddressEdit
   },
   props: {
-    member: Object,
+    member: null,
+    
+  },
+   data() {
+    return {
+      address: {},
+    };
   },
   methods: {
     submitForm(id) {
@@ -59,9 +77,40 @@ export default {
         .catch((error) => {
           this.message = error.response;
         });
+        //var address =this.getAddress(this.member.id)
+        AddressService.updateAddress(this.address.id, this.address)
+        .then(() => {
+          this.$router.go(this.$router.currentRoute);
+          console.log("Address updated!");
+        })
+        .catch((error) => {
+          this.message = error.response;
+        });
+    
+
+    },  
+    getAddress(id) {
+      AddressService.getAddressByPerson(id)
+        .then((response) => {
+          var addresses =response.data;
+          for(var i=0; i< addresses.length;i++){
+            if(addresses[i].Active===1){
+              this.address = addresses[i]
+               break;
+            }
+           
+          }
+          
+          console.log("Loaded:" + this.address);
+          //console.log("Loaded:" + this.family.data);
+        })
+        .catch((error) => {
+          this.message = error.response.data.message;
+        });
     },
   },
   created() {
+      this.getAddress(this.member.id);
     // Test data if info card was not created with a member object
     if (this.member == undefined) {
       this.member = {
