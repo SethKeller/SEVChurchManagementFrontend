@@ -3,7 +3,7 @@
     <img
       class=""
       alt="Wilshire logo"
-      src="../assets/wilshire-transparent.png"
+      src="../assets/wilshire-dt.png"
       width="300px"
     />
 
