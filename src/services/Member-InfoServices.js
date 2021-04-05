@@ -30,8 +30,8 @@ export default {
   // Bootstrap-vue form-file
   // Mozilla File webapi + Mozilla FileReader webapi
   // Stackoverflow 'how to post a file from a form with axios'
-  uploadPicture(file) {
+  uploadPicture(personid, file) {
     // TODO: replace stub
-    console.info("Upload image called: "+file);
+    console.info("Upload image: "+file);
   }
 };

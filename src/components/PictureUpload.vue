@@ -1,15 +1,23 @@
 <template>
   <div>
-    <b-img class="display-picture" />
-    <h5>Upload new picture:</h5>
-    <!-- TODO: add file form -->
+    <b-img thumbnail class="display-picture shadow rounded" :src="previewImage == null ? member.Picture : previewImage" />
+    <h5 class="pt-3">Upload new picture:</h5>
     <b-form-file
          v-model="pictureFile"
          :state="Boolean(pictureFile)"
          placeholder="Choose a picture file or drop it here..."
          drop-placeholder="Drop file here..."
+         accept="image/jpeg, image/png"
+         @change="updatePreview"
     ></b-form-file>
-    <p v-if="pictureFile">Selected file: {{ pictureFile ? pictureFile.name : '' }}</p>
+    <b-alert show v-if="pictureFile" class="py-2">
+        Confirm you would like to upload this picture:
+        <b-button @click="uploadPicture">Save</b-button>&nbsp;
+        <b-button @click="resetPreview">Cancel</b-button>
+    </b-alert>
+    <b-alert :show="successAlertCountdown" variant="success" dismissible @dismiss-count-down="successAlertChanged">
+        Picture successfully changed!
+    </b-alert>
   </div>
 </template>
 
@@ -23,19 +31,37 @@ export default {
   },
   data() {
     return {
-      pictureFile: null
+      pictureFile: null,
+      previewImage: null,
+      successAlertCountdown: 0
     };
   },
   methods: {
-    uploadPicture: function(file) {
-      MemberInfoServices.uploadPicture(file)
+    uploadPicture: function() {
+      // TODO - remove next two lines after service call is implemented
+      this.successAlertCountdown = 4; // Alert Testing
+      this.resetPreview(); // Alert Testing
+      MemberInfoServices.uploadPicture(this.member.id, this.pictureFile)
         .then(response => {
-          // TODO
-          console.info("Got upload response: "+response);
+          this.successAlertCountdown = 4;
+          this.member.Picture = response.data;
+          this.resetPreview();
+          console.info("Got upload response: " + response);
         })
         .catch(error => {
-          console.error("Error: "+error);
+          console.error("Error: " + error);
         })
+    },
+    updatePreview: function(e) {
+      console.info("Updating preview image");
+      this.previewImage = URL.createObjectURL(e.target.files[0]);
+    },
+    resetPreview: function() {
+      this.previewImage = null;
+      this.pictureFile = null;
+    },
+    successAlertChanged: function(countdown) {
+      this.successAlertCountdown = countdown;
     }
   },
   created() {}
@@ -44,8 +70,8 @@ export default {
 
 <style scoped>
 .display-picture {
-  width: 250px; /* TODO- upgrade to max-width */
-  height: 250px;
-  border: 1px dashed black;
+  min-width: 100px;
+  max-width: 250px;
+  height: auto;
 }
 </style>

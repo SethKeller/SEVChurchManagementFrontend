@@ -24,10 +24,10 @@ export default {
       MemberInfoServices.getPeople(id)
         .then(response => {
           this.member = response.data;
-          console.info("Got member data: "+this.member);
+          console.info("Got member data: " + this.member);
         })
         .catch(error => {
-          console.error("Error: "+error);
+          console.error("Error: " + error);
         });
     }
   },
