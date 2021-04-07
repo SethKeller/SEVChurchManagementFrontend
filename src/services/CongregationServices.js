@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./AuthHeader";
 
 var baseurl = "";
 if (process.env.NODE_ENV === "development") {
@@ -13,7 +14,7 @@ const apiClient = axios.create({
 
 export default {
   getCongregation(congregationid) {
-    return apiClient.get("congregations/" + congregationid);
+    return apiClient.get("congregations/" + congregationid, { headers: authHeader() });
   },
   addCongregation(congregation) {
     return apiClient.post("congregations", congregation);
