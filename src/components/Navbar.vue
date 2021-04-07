@@ -1,7 +1,9 @@
 <template>
   <b-navbar type="dark" sticky class="bg-dark text-light px-4 py-3 mb-4">
     <!-- TODO: change this to current congregation name -->
-    <h3 class="my-auto pr-4">Wilshire Church of Christ</h3>
+      <h3 class="my-auto pr-4">
+        <router-link to="/" style="color: inherit; text-decoration: none;">Wilshire Church of Christ</router-link>
+      </h3>
     <b-navbar-nav class="nav-pills">
       <b-nav-item to="/" exact exact-active-class="active" v-if="loggedIn">
         Home
