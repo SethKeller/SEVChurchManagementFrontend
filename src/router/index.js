@@ -6,6 +6,7 @@ import Searchtest from "../views/Searchtest.vue";
 import Member from "../views/Memberinfo.vue";
 import MemberDirectory from "../views/MemberDirectory.vue";
 import FamilyEdit from "../views/FamilyEdit.vue";
+import PictureTest from "../views/test/PictureTest.vue";
 import Login from "../views/Login.vue";
 
 Vue.use(VueRouter);
@@ -40,6 +41,11 @@ const routes = [
     path: "/search",
     name: "search",
     component: Searchtest
+  },
+  {
+    path: "/picture-test",
+    name: "PictureTest",
+    component: PictureTest
   },
   {
     path: "/login",
