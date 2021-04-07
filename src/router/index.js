@@ -8,6 +8,7 @@ import MemberDirectory from "../views/MemberDirectory.vue";
 import FamilyEdit from "../views/FamilyEdit.vue";
 import PictureTest from "../views/test/PictureTest.vue";
 import Login from "../views/Login.vue";
+import PageNotFound from "../views/PageNotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -69,6 +70,11 @@ const routes = [
     name: "user",
     // lazy-loaded
     component: () => import("../views/BoardUser.vue")
+  },
+  {
+    path: "*",
+    name: "PageNotFound",
+    component: PageNotFound
   }
 ];
 
