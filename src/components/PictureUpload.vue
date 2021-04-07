@@ -1,14 +1,14 @@
 <template>
   <div>
-    <b-img thumbnail class="display-picture shadow rounded" :src="previewImage == null ? member.Picture : previewImage" />
+    <b-img thumbnail class="display-picture shadow rounded" :src="previewImage == null ? this.picturePath() + member.Picture : previewImage" />
     <h5 class="pt-3">Upload new picture:</h5>
     <b-form-file
-         v-model="pictureFile"
-         :state="Boolean(pictureFile)"
-         placeholder="Choose a picture file or drop it here..."
-         drop-placeholder="Drop file here..."
-         accept="image/jpeg, image/png"
-         @change="updatePreview"
+        v-model="pictureFile"
+        :state="Boolean(pictureFile)"
+        placeholder="Choose a picture file or drop it here..."
+        drop-placeholder="Drop file here..."
+        accept="image/jpeg, image/png"
+        @change="updatePreview"
     ></b-form-file>
     <b-alert show v-if="pictureFile" class="py-2">
         Confirm you would like to upload this picture:
@@ -17,6 +17,9 @@
     </b-alert>
     <b-alert :show="successAlertCountdown" variant="success" dismissible @dismiss-count-down="successAlertChanged">
         Picture successfully changed!
+    </b-alert>
+    <b-alert :show="errorAlertCountdown" variant="danger" dismissible @dismiss-count-down="errorAlertChanged">
+        There was a problem uploading the picture. Please try again later.
     </b-alert>
   </div>
 </template>
@@ -33,27 +36,26 @@ export default {
     return {
       pictureFile: null,
       previewImage: null,
-      successAlertCountdown: 0
+      successAlertCountdown: 0,
+      errorAlertCountdown: 0
     };
   },
   methods: {
     uploadPicture: function() {
-      // TODO - remove next two lines after service call is implemented
-      this.successAlertCountdown = 4; // Alert Testing
-      this.resetPreview(); // Alert Testing
       MemberInfoServices.uploadPicture(this.member.id, this.pictureFile)
         .then(response => {
           this.successAlertCountdown = 4;
-          this.member.Picture = response.data;
-          this.resetPreview();
-          console.info("Got upload response: " + response);
+          this.member.Picture = response.data; // Save the returned picture URL in the data object
+          this.pictureFile = null;
+          console.info("Got upload response: ", response);
         })
         .catch(error => {
-          console.error("Error: " + error);
+          this.errorAlertCountdown = 4;
+          this.resetPreview();
+          console.error(error);
         })
     },
     updatePreview: function(e) {
-      console.info("Updating preview image");
       this.previewImage = URL.createObjectURL(e.target.files[0]);
     },
     resetPreview: function() {
@@ -62,6 +64,12 @@ export default {
     },
     successAlertChanged: function(countdown) {
       this.successAlertCountdown = countdown;
+    },
+    errorAlertChanged: function(countdown) {
+      this.errorAlertCountdown = countdown;
+    },
+    picturePath: function() {
+      return MemberInfoServices.getPictureRootPath();
     }
   },
   created() {}

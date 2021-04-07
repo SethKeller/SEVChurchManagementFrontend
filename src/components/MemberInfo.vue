@@ -3,14 +3,13 @@
     <b-row no-gutters>
       <b-col md="5">
         <b-card-img
-          :src="member.Picture"
+          :src="this.picturePath() + member.Picture"
           :alt="'Picture of ' + member.FirstName + ' ' + member.LastName"
           class="rounded-right"
-          style="max-width:250px;"
+          style="width: 200px; max-height: 200px;"
         />
       </b-col>
-      <b-col md="7" class="mx-auto" style="min-width: 248px;">
-        <!-- TODO: replace placeholder with real info -->
+      <b-col md="7" class="mx-auto" style="min-width: 248px; min-height: 200px">
         <b-card-body :title="member.FirstName + ' ' + member.LastName">
           <b-card-text>
             <i>Contact:</i><br />
@@ -24,17 +23,24 @@
 </template>
 
 <script>
+import MemberInfoServices from "@/services/Member-InfoServices.js";
+
 export default {
   name: "MemberInfo",
   props: {
     member: Object
   },
+  methods: {
+    picturePath: function() {
+      return MemberInfoServices.getPictureRootPath();
+    }
+  },
   created() {
     // Test data if info card was not created with a member object
     if (this.member == undefined) {
       this.member = {
-        Picture:
-          "https://i.pinimg.com/originals/78/e9/8d/78e98d6cf0e15e9993baf70717acfa73.jpg",
+        Picture: "/pictures/member/default.png",
+          // Old placeholder: https://i.pinimg.com/originals/78/e9/8d/78e98d6cf0e15e9993baf70717acfa73.jpg
         FirstName: "Carl",
         LastName: "Friedricksen",
         Phone: "405-425-5555",
