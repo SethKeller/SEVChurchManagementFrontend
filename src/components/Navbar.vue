@@ -1,26 +1,35 @@
 <template>
-  <b-navbar
-    type="dark"
-    sticky
-    class="bg-dark text-light px-4 py-3 mb-4"
-    v-if="currentUser"
-  >
+  <b-navbar type="dark" sticky class="bg-dark text-light px-4 py-3 mb-4">
     <!-- TODO: change this to current congregation name -->
-    <h3 class="my-auto pr-4">Wilshire Church of Christ</h3>
+      <h3 class="my-auto pr-4">
+        <router-link to="/" style="color: inherit; text-decoration: none;">Wilshire Church of Christ</router-link>
+      </h3>
     <b-navbar-nav class="nav-pills">
-      <b-nav-item to="/" exact exact-active-class="active">
+      <b-nav-item to="/" exact exact-active-class="active" v-if="loggedIn">
         Home
       </b-nav-item>
-      <b-nav-item to="/directory" exact exact-active-class="active">
+      <b-nav-item
+        to="/directory"
+        exact
+        exact-active-class="active"
+        v-if="loggedIn"
+      >
         Church Directory
       </b-nav-item>
-      <b-nav-item to="/messages" exact exact-active-class="active">
+      <b-nav-item
+        to="/messages"
+        exact
+        exact-active-class="active"
+        v-if="loggedIn"
+      >
         Messages
       </b-nav-item>
-      <b-nav-item to="/events" exact exact-active-class="active">
-        Events
-      </b-nav-item>
-      <b-nav-item-dropdown text="My Info" toggle-class="nav-link-custom" left>
+      <b-nav-item-dropdown
+        text="My Info"
+        toggle-class="nav-link-custom"
+        left
+        v-if="loggedIn"
+      >
         <b-dropdown-item to="/family-info" exact exact-active-class="active">
           My Family
         </b-dropdown-item>
@@ -50,8 +59,17 @@
           Edit Congregation Info
         </b-dropdown-item>
       </b-nav-item-dropdown>
-      <b-nav-item exact exact-active-class="active" href @click.prevent="logOut">
-        Logout
+      <b-nav-item exact exact-active-class="active" to="login" v-if="!loggedIn">
+        Log In
+      </b-nav-item>
+      <b-nav-item
+        exact
+        exact-active-class="active"
+        href
+        @click.prevent="logOut"
+        v-if="loggedIn"
+      >
+        Log Out
       </b-nav-item>
     </b-navbar-nav>
   </b-navbar>
@@ -69,6 +87,9 @@ export default {
       }
 
       return false;
+    },
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
     }
   },
   name: "Navbar",
