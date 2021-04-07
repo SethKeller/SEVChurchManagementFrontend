@@ -5,7 +5,8 @@ import Congregation from "../views/Congregation.vue";
 import Searchtest from "../views/Searchtest.vue";
 import Member from "../views/Memberinfo.vue";
 import MemberDirectory from "../views/MemberDirectory.vue";
-import  FamilyEdit from "../views/FamilyEdit.vue"
+import FamilyEdit from "../views/FamilyEdit.vue";
+import Login from "../views/Login.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,29 @@ const routes = [
     path: "/search",
     name: "search",
     component: Searchtest
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: Login
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    // lazy-loaded
+    component: () => import("../views/Profile.vue")
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    // lazy-loaded
+    component: () => import("../views/BoardAdmin.vue")
+  },
+  {
+    path: "/user",
+    name: "user",
+    // lazy-loaded
+    component: () => import("../views/BoardUser.vue")
   }
 ];
 
