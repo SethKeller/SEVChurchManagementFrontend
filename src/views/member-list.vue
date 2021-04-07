@@ -9,8 +9,8 @@
     <br/>    
     <table class= "mx-auto">
         <tr>
-            <th class="list-header" width= "300px">First Name</th>
-            <th class="list-header" width= "300px">Last Name</th>
+           <!-- <th class="list-header" width= "300px">First Name</th>
+            <th class="list-header" width= "300px">Last Name</th> -->
         </tr>   
         <MemberInfo v-for="member in members" :key="member.LASTNAME" :member="member"/>
     </table>
