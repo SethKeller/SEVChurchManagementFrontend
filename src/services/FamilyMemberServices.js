@@ -15,6 +15,9 @@ export default {
   getFamily(familyid) {
     return apiClient.get("familys/" + familyid);
   },
+  getAddressByPerson(personid) {
+    return apiClient.get("familys/personId/" + personid);
+  },
   addFamily(family) {
     return apiClient.post("familys", family);
   },

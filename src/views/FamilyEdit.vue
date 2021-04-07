@@ -100,7 +100,7 @@
 import FamilyInfo from "@/components/FamilyInfo";
 import Familyinfooervices from "../services/FamilyMemberServices";
 import AddressService from "../services/AddressServices";
-import MemberService from "../services/Member-InfoServices";
+import MemberService from "../services/MemberListServices";
 
 export default {
   name: "MemberInfo",
@@ -113,6 +113,7 @@ export default {
       headOfFamily: null,
       family: {},
       members: [],
+      id :null,
       address: null,
       headAddress: null,
       show: true,
@@ -124,7 +125,7 @@ export default {
     // Get page number from URL
     if (this.$route.query.page != undefined && this.$route.query.page != "")
       this.page = parseInt(this.$route.query.page);
-    this.getFamily(1);
+    this.getMember(1)
   },
 
   methods: {
@@ -134,6 +135,19 @@ export default {
           this.family = response.data;
           this.members = this.family.people;
           this.getHeadOfFamily();
+          
+          //console.log("Loaded:" + this.family.data);
+        })
+        .catch((error) => {
+          this.message = error.response.data.message;
+        });
+    },
+    getMember(id){
+      MemberService.getMember(id).then((response) => {
+          
+          var member = response.data;
+          this.id = member.FamilyId;
+          this.getFamily(id);
           
           //console.log("Loaded:" + this.family.data);
         })
