@@ -125,7 +125,7 @@ export default {
     // Get page number from URL
     if (this.$route.query.page != undefined && this.$route.query.page != "")
       this.page = parseInt(this.$route.query.page);
-    this.getMember(1)
+    this.getMember(2)
   },
 
   methods: {
@@ -146,10 +146,8 @@ export default {
       MemberService.getMember(id).then((response) => {
           
           var member = response.data;
-          this.id = member.FamilyId;
-          this.getFamily(id);
-          
-          //console.log("Loaded:" + this.family.data);
+          this.getFamily(member.FamilyId);
+        
         })
         .catch((error) => {
           this.message = error.response.data.message;
