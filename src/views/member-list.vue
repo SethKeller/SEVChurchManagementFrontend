@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import MemberInfo from "@/components/MemberInfo.vue";
+import MemberInfo from "@/components/Listmember.vue";
 import MemberListServices from "@/services/MemberListServices.js";
 export default {
   name: "MemberDirectory",
