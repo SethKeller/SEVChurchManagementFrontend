@@ -16,7 +16,12 @@
       />
     </div>
     <div v-if="familyMode">
-      <h2>FAMILY DIRECTORY GOES HERE</h2>
+      <FamilyDirectoryInfo
+        v-for="family in families"
+        :key="family.FamilyName"
+        :family="family"
+        class="m-2 d-md-inline-block"
+      />
     </div>
     
   </div>
@@ -24,7 +29,7 @@
 
 <script>
 import MemberInfo from "@/components/MemberInfo.vue";
-//import FamilyDirectoryInfo from "@/components/FamilyDirectoryInfo.vue";
+import FamilyDirectoryInfo from "@/components/FamilyDirectoryInfo.vue";
 import MemberListServices from "@/services/MemberListServices.js";
 import FamilyMemberServices from "@/services/FamilyMemberServices.js";
 import Search from "@/components/Search.vue";
@@ -33,7 +38,7 @@ export default {
   name: "MemberDirectory",
   components: {
     MemberInfo,
-    //FamilyDirectoryInfo,
+    FamilyDirectoryInfo,
     Search
   },
   props: {},

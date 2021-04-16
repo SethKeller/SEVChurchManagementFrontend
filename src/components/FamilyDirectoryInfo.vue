@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body class="overflow-hidden shadow" style="max-width: 450px;">
+  <b-card no-body class="overflow-hidden shadow family-card" @click="goToFamily">
     <b-row no-gutters>
       <b-col md="5">
         <b-card-img
@@ -12,7 +12,11 @@
       <b-col md="7" class="mx-auto" style="min-width: 248px; min-height: 200px">
         <b-card-body :title="family.FamilyName">
           <b-card-text>
-            &lt;Placeholder Text&gt;
+            <i>Family</i>
+            <!-- TODO: list family members -->
+            <div v-for="person in family.people" :key="person.FirstName">
+              {{ person.FirstName }} {{ person.LastName }}
+            </div>
           </b-card-text>
         </b-card-body>
       </b-col>
@@ -29,6 +33,10 @@ export default {
     family: Object
   },
   methods: {
+    goToFamily: function() {
+      // Go to the family details page
+      this.$router.push("/family-info/" + this.family.id);
+    },
     picturePath: function() {
       return FamilyMemberServices.getPictureRootPath();
     }
@@ -41,8 +49,19 @@ export default {
         Picture: "/pictures/family/default.png"
       };
     }
+    console.log("FAMILY", this.family);
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+    .family-card {
+        max-width: 450px;
+        cursor: pointer;
+        transform: scale(1.0);
+        transition: transform .2s;
+    }
+    .family-card:hover {
+        transform: scale(1.03);
+    }
+</style>
