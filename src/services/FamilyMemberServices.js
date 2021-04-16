@@ -24,5 +24,7 @@ export default {
   deleteFamily(familyid) {
     return apiClient.delete("familys/" + familyid);
   },
-
+  getAllFamilies() {
+    return apiClient.get("familys/");
+  }
 };

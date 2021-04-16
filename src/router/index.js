@@ -9,6 +9,7 @@ import FamilyEdit from "../views/FamilyEdit.vue";
 import PictureTest from "../views/test/PictureTest.vue";
 import Login from "../views/Login.vue";
 import PageNotFound from "../views/PageNotFound.vue";
+import Pdf from "../views/Pdf.vue";
 
 Vue.use(VueRouter);
 
@@ -75,6 +76,11 @@ const routes = [
     path: "*",
     name: "PageNotFound",
     component: PageNotFound
+  },
+  {
+    path: "/pdf",
+    name: "Pdf",
+    component: Pdf
   }
 ];
 
