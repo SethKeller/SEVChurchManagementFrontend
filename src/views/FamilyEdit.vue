@@ -1,26 +1,39 @@
 <template>
   <div>
+    <h3>Family Info:</h3>
+    <b-alert
+      dismissible
+      style="width:70%;max-width:540px"
+      class="mx-auto"
+      :variant="alertType"
+      :show="alertCountdown"
+      @dismissed="dismissCountdown = 0"
+      @dismiss-count-down="alertCountdownChanged"
+    >
+        {{ alertMessage }}
+    </b-alert>
+    
     <b-form @submit="onSubmit">
-      <b-container fluid>
-    <b-container>
+    <b-container fluid>
+      <b-container style="width:70%;max-width:540px" class="mx-auto">
         <b-row class="my-3">
-          <b-col sm="3">
-            <label for="input-group-fname">First Name:</label>
+          <b-col sm="4">
+            <label for="input-group-fname" class="pt-1">Family Name:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-fname"
-              v-model="headOfFamily.FirstName"
+              v-model="family.FamilyName"
               required
-              placeholder="First Name"
+              placeholder="Family Name"
             ></b-form-input>
           </b-col>
         </b-row>
         <b-row class="my-3">
-          <b-col sm="3">
-            <label for="input-group-lname">City:</label>
+          <b-col sm="4">
+            <label for="input-group-lname" class="pt-1">City:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-lname"
               v-model="headAddress.City"
@@ -30,10 +43,10 @@
           </b-col>
         </b-row>
         <b-row class="my-3">
-          <b-col sm="3">
-            <label for="input-group-dname">State:</label>
+          <b-col sm="4">
+            <label for="input-group-dname" class="pt-1">State:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-dname"
               v-model="headAddress.State"
@@ -43,10 +56,10 @@
           </b-col>
         </b-row>
         <b-row class="my-3">
-          <b-col sm="3">
-            <label for="input-group-dname">State:</label>
+          <b-col sm="4">
+            <label for="input-group-dname" class="pt-1">Street:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-dname"
               v-model="headAddress.Street"
@@ -56,49 +69,50 @@
           </b-col>
         </b-row>
         <b-row class="my-3">
-          <b-col sm="3">
-            <label for="input-group-Phone">House Number</label>
+          <b-col sm="4">
+            <label for="input-group-Phone" class="pt-1">House Number:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-Phone"
               v-model="headAddress.HouseNumber"
               required
               placeholder="Phone number"
-             
             >
-              ></b-form-input
-            >
+            </b-form-input>
           </b-col>
         </b-row>
         
-        <br />
-        <br/>
-       
+        <b-row>
+          <b-col sm="3" />
+          <b-col class="mr-2" sm="3"
+            ><b-button variant="success" type="submit">Submit</b-button></b-col
+          >
+          <b-col class="mr-2" sm="3"
+            ><b-button variant="primary" to="/">Home</b-button></b-col
+          >
+          <b-col sm="3" />
+        </b-row>
       </b-container>
+      
+      <b-container class="pb-4">
+        <hr />
+        <h3>Family Members:</h3>
         <FamilyInfo
           v-for="member in members"
           :key="member.LASTNAME"
           :member="member"
           class="m-2 d-md-inline-block"
         />
-        <br>
-         <b-row>
-          <b-col class="mr-2"
-            ><b-button variant="success" type="submit">Submit</b-button></b-col
-          >
-          <b-col class="mr-2"
-            ><b-button variant="primary" to="/">Home</b-button></b-col
-          >
-        </b-row>
       </b-container>
+    </b-container>
     </b-form>
   </div>
 </template>
 
 <script>
 import FamilyInfo from "@/components/FamilyInfo";
-import Familyinfooervices from "../services/FamilyMemberServices";
+import FamilyInfoServices from "../services/FamilyMemberServices";
 import AddressService from "../services/AddressServices";
 import MemberService from "../services/MemberListServices";
 
@@ -113,30 +127,28 @@ export default {
       headOfFamily: null,
       family: {},
       members: [],
-      id :null,
+      id: null,
       address: null,
       headAddress: null,
       show: true,
-      page: 1,
-      searchQuery: "",
+      alertMessage: 'Member info updated!',
+      alertType: 'success',
+      alertCountdown: 0
     };
   },
   created() {
-    // Get page number from URL
-    if (this.$route.query.page != undefined && this.$route.query.page != "")
-      this.page = parseInt(this.$route.query.page);
     this.getMember(2)
   },
 
   methods: {
     getFamily(id) {
-      Familyinfooervices.getFamily(id)
+      FamilyInfoServices.getFamily(id)
         .then((response) => {
           this.family = response.data;
           this.members = this.family.people;
           this.getHeadOfFamily();
           
-          //console.log("Loaded:" + this.family.data);
+          //console.log("Loaded family:", this.family);
         })
         .catch((error) => {
           this.message = error.response.data.message;
@@ -144,47 +156,63 @@ export default {
     },
     getMember(id){
       MemberService.getMember(id).then((response) => {
-          
           var member = response.data;
           this.getFamily(member.FamilyId);
-        
         })
         .catch((error) => {
           this.message = error.response.data.message;
         });
     },
-     onSubmit() {
-     AddressService.updateAddress(this.headAddress.id, this.headAddress)
+    onSubmit() {
+      var hasError = false,
+          errorMessage = "";
+      
+      // Update data in the database
+      AddressService.updateAddress(this.headAddress.id, this.headAddress)
         .then(() => {
-          this.$router.go(this.$router.currentRoute);
-          console.log("address updated!");
+          console.log("Address updated!");
         })
         .catch((error) => {
-          this.message = error.response;
+          errorMessage = error.response;
+          hasError = true;
         });
-        MemberService.updatePeople(this.headOfFamily.id, this.headOfFamily)
+      FamilyInfoServices.updateFamily(this.family.id, this.family)
         .then(() => {
-          this.$router.go(this.$router.currentRoute);
-          console.log("member updated!");
+          console.log("Family updated!");
         })
         .catch((error) => {
-          this.message = error.response;
+          errorMessage = error.response;
+          hasError = true;
         });
+      
+      if (!hasError) {
+          // Show success alert
+          this.alertMessage = 'Family info updated!';
+          this.alertType = 'success';
+          this.alertCountdown = 4;
+      } else {
+          // Show error alert
+          this.alertMessage = errorMessage;
+          this.alertType = 'error';
+          this.alertCountdown = 4;
+      }
     },
-   
     getHeadOfFamily() {
       var i;
       for (i = 0; i < this.members.length; i++) {
         if (this.members[i].FamilyRole === 1) {
           this.headOfFamily = this.members[i];
-          this.address =this.headOfFamily.addresses;
-          if(this.address[i].Active ===1 ){
-            this.headAddress =this.address[i]
+          this.address = this.headOfFamily.addresses;
+          if (this.address[i].Active === 1){
+            this.headAddress = this.address[i]
           }
           break;
         }
       }
     },
+    alertCountdownChanged(countdown) {
+      this.alertCountdown = countdown;
+    }
   },
 };
 </script>
