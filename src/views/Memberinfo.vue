@@ -20,8 +20,13 @@ import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
 
 export default {
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    }
+  },
   components: {
-    MemberEditInfo,
+    MemberEditInfo
   },
   data() {
     return {
@@ -32,11 +37,13 @@ export default {
     };
   },
   created() {
-    this.getPeople(2);
+    this.getPeople(this.currentUser.id);
+    console.log("hello");
+    console.log(this.currentUser.id);
   },
   methods: {
     submitForm() {
-      MemberInfoServices.updatePeople(2, this.member)
+      MemberInfoServices.updatePeople(this.currentUser.id, this.member)
         .then(() => {
           //this.$router.go(this.$router.currentRoute); // Reload the page
           console.log("Member updated!");
@@ -54,11 +61,11 @@ export default {
     },
     getPeople(id) {
       MemberInfoServices.getPeople(id)
-        .then((response) => {
+        .then(response => {
           this.member = response.data;
           console.log("Loaded:" + this.member.data);
         })
-        .catch((error) => {
+        .catch(error => {
           this.message = error.response.data.message;
         });
     },
