@@ -17,7 +17,7 @@
     </div>
     <div v-if="familyMode">
       <FamilyDirectoryInfo
-        v-for="family in families"
+        v-for="family in filteredFamilies"
         :key="family.FamilyName"
         :family="family"
         class="m-2 d-md-inline-block"
@@ -47,6 +47,7 @@ export default {
       familyMode: false,
       members: [],
       families: [],
+      filteredFamilies: [],
       message: "Loading...",
       searchQuery: ""
     };
@@ -68,6 +69,7 @@ export default {
       FamilyMemberServices.getFamilies()
         .then(response => {
           this.families = response.data;
+          this.filteredFamilies = this.families; // Unfiltered list = full list
           this.message = "";
         })
         .catch(error => {
@@ -77,7 +79,18 @@ export default {
     doSearch(members) {
       // Get member list from search component
       this.members = members;
-      // TODO - get family list from search-returned member list?
+      
+      // Get filtered family list by matching members returned from search
+      this.filteredFamilies = this.families.filter(family => {
+        var included = false;
+        for (var i=0; i<family.people.length; i++) {
+          for (var j=0; j<this.members.length; j++) {
+            if (family.people[i].id == this.members[j].id)
+              included = true;
+          }
+        }
+        return included;
+      });
     }
   },
   created() {
