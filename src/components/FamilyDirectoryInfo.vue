@@ -13,7 +13,6 @@
         <b-card-body :title="family.FamilyName">
           <b-card-text>
             <i>Family</i>
-            <!-- TODO: list family members -->
             <div v-for="person in family.people" :key="person.FirstName">
               {{ person.FirstName }} {{ person.LastName }}
             </div>
@@ -49,7 +48,6 @@ export default {
         Picture: "/pictures/family/default.png"
       };
     }
-    console.log("FAMILY", this.family);
   }
 };
 </script>

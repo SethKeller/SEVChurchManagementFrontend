@@ -34,7 +34,9 @@ export default {
   components: {
     FamilyInfo,    
   },
-  props: {},
+  props: {
+    familyId: String
+  },
   data() {
     return {
       family: {},
@@ -49,7 +51,11 @@ export default {
     if (this.$route.query.page != undefined && this.$route.query.page != "")
       this.page = parseInt(this.$route.query.page);
 
-    this.getFamily(1);
+    // Fetch the correct family based on passed-in prop
+    if (this.familyId == "" || this.familyId == undefined)
+        console.error("Error: Family ID not provided!");
+    else
+        this.getFamily(this.familyId);
   },
 
   methods: {

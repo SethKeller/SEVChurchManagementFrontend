@@ -30,7 +30,7 @@
         left
         v-if="loggedIn"
       >
-        <b-dropdown-item to="/family-info" exact exact-active-class="active">
+        <b-dropdown-item :to="'/family-info/'+currentFamilyId" exact exact-active-class="active">
           My Family
         </b-dropdown-item>
         <b-dropdown-item to="/groups" exact exact-active-class="active">
@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import MemberListServices from "@/services/MemberListServices.js";
+
 export default {
   computed: {
     currentUser() {
@@ -94,11 +96,28 @@ export default {
   },
   name: "Navbar",
   props: {},
+  data() {
+    return {
+      currentFamilyId: ""
+    };
+  },
   methods: {
     logOut() {
       this.$store.dispatch("auth/logout");
       this.$router.push("/login");
+    },
+    getCurrentFamilyId() {
+      MemberListServices.getMember(this.currentUser.id)
+        .then(res => {
+          this.currentFamilyId = res.data.FamilyId;
+        })
+        .catch(() => {
+          this.currentFamilyId = "";
+        });
     }
+  },
+  created() {
+    this.getCurrentFamilyId();
   }
 };
 </script>
