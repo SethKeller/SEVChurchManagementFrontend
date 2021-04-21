@@ -134,7 +134,9 @@ export default {
   components: {
     FamilyInfo,
   },
-  props: {},
+  props: {
+    familyId: String
+  },
   data() {
     return {
       headOfFamily: null,
@@ -150,7 +152,15 @@ export default {
     };
   },
   created() {
-    this.getMember(2)
+    // Get page number from URL
+    if (this.$route.query.page != undefined && this.$route.query.page != "")
+      this.page = parseInt(this.$route.query.page);
+
+    // Fetch the correct family based on passed-in prop
+    if (this.familyId == "" || this.familyId == undefined)
+        console.error("Error: Family ID not provided!");
+    else
+        this.getFamily(this.familyId);
   },
 
   methods: {

@@ -35,9 +35,10 @@ const routes = [
     component: Member
   },
   {
-    path: "/family-info",
+    path: "/family-info/:familyId",
     name: "FamilyEdit",
-    component: FamilyEdit
+    component: FamilyEdit,
+    props: true
   },
   {
     path: "/search",
