@@ -31,6 +31,33 @@
         </b-row>
         <b-row class="my-3">
           <b-col sm="4">
+            <label for="input-group-dname" class="pt-1">Street:</label>
+          </b-col>
+          <b-col sm="8">
+            <b-form-input
+              id="input-group-dname"
+              v-model="headAddress.Street"
+              required
+              placeholder="Display Name"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-Phone" class="pt-1">House Number:</label>
+          </b-col>
+          <b-col sm="8">
+            <b-form-input
+              id="input-group-Phone"
+              v-model="headAddress.HouseNumber"
+              required
+              placeholder="Phone number"
+            >
+            </b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="my-3">
+          <b-col sm="4">
             <label for="input-group-lname" class="pt-1">City:</label>
           </b-col>
           <b-col sm="8">
@@ -57,29 +84,15 @@
         </b-row>
         <b-row class="my-3">
           <b-col sm="4">
-            <label for="input-group-dname" class="pt-1">Street:</label>
+            <label for="input-group-zip" class="pt-1">Zipcode:</label>
           </b-col>
           <b-col sm="8">
             <b-form-input
-              id="input-group-dname"
-              v-model="headAddress.Street"
+              id="input-group-zip"
+              v-model="headAddress.Zipcode"
               required
-              placeholder="Display Name"
+              placeholder="Zipcode"
             ></b-form-input>
-          </b-col>
-        </b-row>
-        <b-row class="my-3">
-          <b-col sm="4">
-            <label for="input-group-Phone" class="pt-1">House Number:</label>
-          </b-col>
-          <b-col sm="8">
-            <b-form-input
-              id="input-group-Phone"
-              v-model="headAddress.HouseNumber"
-              required
-              placeholder="Phone number"
-            >
-            </b-form-input>
           </b-col>
         </b-row>
         

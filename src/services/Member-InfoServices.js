@@ -26,5 +26,14 @@ export default {
   },
   deletePeople(personid) {
     return apiClient.delete("persons/" + personid);
+  },
+  
+  // Get the root path for image hosting based on environment
+  getPictureRootPath() {
+    if (process.env.NODE_ENV === "development") {
+      return "http://localhost:8080";
+    } else {
+      return "";
+    }
   }
 };

@@ -1,6 +1,30 @@
 <template>
   <div class="parent"  v-show="address !== undefined">
     <b-form @submit="onSubmit" style="max-width:600px" class="mx-auto">
+      <b-form-group
+        id="input-group-streetaddress"
+        label="Street: "
+        label-for="input-streetaddress"
+      >
+        <b-form-input
+          id="input-streetaddress"
+          v-model="address.Street"
+          placeholder="Enter street address"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-group-HouseNumber"
+        label="House Number:"
+        label-for="input-HouseNumber"
+      >
+        <b-form-input
+          id="input-houseNumber"
+          v-model="address.HouseNumber"
+          placeholder="Enter house number"
+          required
+        ></b-form-input>
+      </b-form-group>
       <b-form-group id="input-group-city" label="City:" label-for="input-city">        
         <b-form-input
           id="input-city"
@@ -33,30 +57,6 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-form-group
-        id="input-group-streetaddress"
-        label="Street Address: "
-        label-for="input-streetaddress"
-      >
-        <b-form-input
-          id="input-streetaddress"
-          v-model="address.Street"
-          placeholder="Enter street address"
-          required
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group
-        id="input-group-HouseNumber"
-        label="HouseNumber Address:"
-        label-for="input-HouseNumber"
-      >
-        <b-form-input
-          id="input-houseNumber"
-          v-model="address.HouseNumber"
-          placeholder="Enter house number"
-          required
-        ></b-form-input>
-      </b-form-group>
       <div id="form-button">
         <b-button type="submit" variant="primary">Update Address</b-button>
       </div> 
@@ -68,7 +68,6 @@ import AddressService from "../services/AddressServices";
 
 export default {
   props: {
-    
     member: Object,
   },
   data() {
@@ -81,8 +80,8 @@ export default {
       AddressService.getAddressByPerson(id)
         .then((response) => {
           if(this.address != null){
-             this.address = response.data[0];
-              console.log("address:" + this.address);
+            this.address = response.data[0];
+            console.log("Address:", this.address);
           }         
         })
         .catch((error) => {
@@ -92,8 +91,7 @@ export default {
     onSubmit() {
      AddressService.updateAddress(this.address.id, this.address)
         .then(() => {
-          this.$router.go(this.$router.currentRoute);
-          console.log("member updated!");
+          console.log("Address updated!");
         })
         .catch((error) => {
           this.message = error.response;
