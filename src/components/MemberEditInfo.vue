@@ -2,11 +2,11 @@
   <div>
     <b-form @submit="onSubmit">
       <b-container>
-        <b-row class="my-1">
-          <b-col sm="3">
-            <label for="input-group-fname">First Name:</label>
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-fname" class="pt-1">First Name:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-fname"
               v-model="member.FirstName"
@@ -15,11 +15,11 @@
             ></b-form-input>
           </b-col>
         </b-row>
-        <b-row class="my-2">
-          <b-col sm="3">
-            <label for="input-group-lname">Last Name:</label>
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-lname" class="pt-1">Last Name:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-lname"
               v-model="member.LastName"
@@ -29,10 +29,10 @@
           </b-col>
         </b-row>
         <b-row class="my-3">
-          <b-col sm="3">
-            <label for="input-group-dname">Display Name:</label>
+          <b-col sm="4">
+            <label for="input-group-dname" class="pt-1">Display Name:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-dname"
               v-model="member.DisplayName"
@@ -41,76 +41,124 @@
             ></b-form-input>
           </b-col>
         </b-row>
-        <b-row class="my-4">
-          <b-col sm="3">
-            <label for="input-group-DofBirth">Date of Birth:</label>
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-DofBirth" class="pt-1">Date of Birth:</label>
           </b-col>
-          <b-col sm="6">
-            <b-form-input
+          <b-col sm="8">
+            <datepicker
               id="input-group-DofBirth"
-              v-model="member.DateofBirth"
+              input-class="form-control"
+              v-model="dateOfBirth"
+              valueType="format"
+              :format="'M/dd/yyyy'"
               required
               placeholder="Date of Birth"
-            ></b-form-input>
+            ></datepicker>
           </b-col>
         </b-row>
-        <b-row class="my-5">
-          <b-col sm="3">
-            <label for="input-group-Phone">Phone:</label>
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-Phone" class="pt-1">Phone:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-Phone"
               v-model="member.Phone"
               required
               placeholder="Phone number"
-            ></b-form-input>
+              @input="acceptNumber"
+            >
+              ></b-form-input
+            >
           </b-col>
         </b-row>
-        <b-row class="my-6">
-          <b-col sm="3">
-            <label for="input-group-HousePhone"> House Phone:</label>
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-HousePhone" class="pt-1"> House Phone:</label>
           </b-col>
-          <b-col sm="6">
+          <b-col sm="8">
             <b-form-input
               id="input-group-HousePhone"
               v-model="member.HousePhone"
               required
               placeholder="House Phone"
+              @input="acceptNumber2"
             ></b-form-input>
           </b-col>
-        </b-row>  
-        <br>
+        </b-row>
         <b-row>
-          <b-col class="mr-2"
+          <b-col class="mx-2"
             ><b-button variant="success" type="submit">Submit</b-button></b-col
           >
-          <b-col class="mr-2"
-            ><b-button variant="primary" to="/" >Home</b-button></b-col
+          <b-col class="mx-2"
+            ><b-button variant="primary" to="/">Home</b-button></b-col
           >
         </b-row>
       </b-container>
     </b-form>
   </div>
 </template>
+
 <script>
+import Datepicker from 'vuejs-datepicker';
 export default {
   props: {
     member: Object,
   },
+  components: {
+    Datepicker
+  },
   data() {
     return {
       show: true,
+      dateConverted: false
     };
+  },
+  computed: {
+    // Date handler to prevent timezone conversions in the date picker
+    dateOfBirth: {
+      get() {
+        if (!this.dateConverted)
+          return new Date(this.member.DateofBirth.slice(0,10)+" 12:00:00");
+        else
+          return this.member.DateofBirth;
+      },
+      set(newVal) {
+        this.member.DateofBirth = new Date(newVal.getFullYear(), newVal.getMonth(), newVal.getDate());
+        this.dateConverted = true;
+      }
+    }
   },
   methods: {
     onSubmit() {
+      // Ensure date is saved correctly
+      this.member.DateofBirth = new Date(this.dateOfBirth.getFullYear(), this.dateOfBirth.getMonth(), this.dateOfBirth.getDate());
       this.$emit("formSubmitted");
     },
+    acceptNumber() {
+      var x = this.member.Phone.replace(/\D/g, "").match(
+        /(\d{0,3})(\d{0,3})(\d{0,4})/
+      );
+      this.member.Phone = !x[2]
+        ? x[1]
+        : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+    },
+    acceptNumber2() {
+      var x = this.member.HousePhone.replace(/\D/g, "").match(
+        /(\d{0,3})(\d{0,3})(\d{0,4})/
+      );
+      this.member.HousePhone = !x[2]
+        ? x[1]
+        : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+    },
+  },
+  mounted() {
+    this.acceptNumber();
+    this.acceptNumber2();
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped></style>
-

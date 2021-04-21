@@ -5,6 +5,7 @@ import Congregation from "../views/Congregation.vue";
 import Searchtest from "../views/Searchtest.vue";
 import Member from "../views/Memberinfo.vue";
 import MemberDirectory from "../views/MemberDirectory.vue";
+import MemberList from "../views/member-list.vue";
 import FamilyEdit from "../views/FamilyEdit.vue";
 import PictureTest from "../views/test/PictureTest.vue";
 import Login from "../views/Login.vue";
@@ -43,6 +44,11 @@ const routes = [
     path: "/search",
     name: "search",
     component: Searchtest
+  },
+  {
+    path: "/member-list",
+    name: "Member List",
+    component: MemberList
   },
   {
     path: "/picture-test",
