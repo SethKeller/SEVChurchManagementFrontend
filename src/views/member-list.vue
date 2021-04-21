@@ -2,6 +2,7 @@
 <div class=" ">
     <h1 class="pb-3"> Member List</h1>
     <h3>{{ message }}</h3>
+    <Search v-on:search-submitted="doSearch" class="m-auto pb-3" style="width:340px" />
     <div id="page-buttons">
         <!--button v-on:click="prevPage">Prev</button>
         <button v-on:click="nextPage">Next</button-->
@@ -20,10 +21,12 @@
 <script>
 import MemberInfo from "@/components/Listmember.vue";
 import MemberListServices from "@/services/MemberListServices.js";
+import Search from "@/components/Search.vue";
 export default {
   name: "MemberDirectory",
   components: {
-    MemberInfo
+    MemberInfo,
+    Search
   },
   props: {},
   data() {
@@ -44,8 +47,12 @@ export default {
         })
         .catch(error => {
           this.message = error.response.data.message;
-        });
-    }
+        });   
+    },
+    doSearch(members) {
+      // Get member list from search component
+      this.members = members;
+     },
   },
   created() {
     // Get page number from URL
@@ -55,6 +62,7 @@ export default {
     this.getMemberList();
     //console.log("Log hit")
   }
+  
 };
 </script>
 
