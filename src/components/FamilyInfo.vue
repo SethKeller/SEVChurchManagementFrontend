@@ -17,25 +17,14 @@
             {{ member.Phone }}
           </b-card-text>
           <b-card-text>
-            <b-button v-b-toggle="`id-${member.id}`" variant="primary">
-              Edit</b-button
-            >
+            <b-button v-b-toggle="`id-${member.id}`" variant="primary" style="margin-top:-8px;">
+              Edit
+            </b-button>
           </b-card-text>
         </b-card-body>
       </b-col>
     </b-row>
     <b-row md="12" class="mx-auto" style="width:100%;">
-      <b-alert
-        dismissible
-        style="width:90%"
-        class="mx-auto"
-        :variant="alertType"
-        :show="alertCountdown"
-        @dismissed="dismissCountdown = 0"
-        @dismiss-count-down="alertCountdownChanged"
-      >
-          {{ alertMessage }}
-      </b-alert>
       <b-collapse :id="`id-${member.id}`" title="Sidebar" right shadow style="width:100%;">
         <div class="px-3 py-2">
           <div>
@@ -43,6 +32,17 @@
               :member="member"
                v-on:formSubmitted="submitForm(member.id)"
             />
+            <b-alert
+              dismissible
+              style="width:90%"
+              class="mx-auto mt-3"
+              :variant="alertType"
+              :show="alertCountdown"
+              @dismissed="dismissCountdown = 0"
+              @dismiss-count-down="alertCountdownChanged"
+            >
+                {{ alertMessage }}
+            </b-alert>
             <div>
               <AddressEdit
               :member="member"
@@ -135,6 +135,9 @@ export default {
           this.message = error.response.data.message;
         });
     },
+    alertCountdownChanged(countdown) {
+      this.alertCountdown = countdown;
+    }
   },
   created() {
       this.getAddress(this.member.id);

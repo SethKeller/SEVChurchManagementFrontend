@@ -10,7 +10,7 @@
         accept="image/jpeg, image/png"
         @change="updatePreview"
     ></b-form-file>
-    <b-alert show v-if="pictureFile" class="py-2">
+    <b-alert show v-if="pictureFile" class="pt-2">
         Confirm you would like to upload this picture:
         <b-button @click="uploadPicture">Save</b-button>&nbsp;
         <b-button @click="resetPreview">Cancel</b-button>
@@ -21,6 +21,7 @@
     <b-alert :show="errorAlertCountdown" variant="danger" dismissible @dismiss-count-down="errorAlertChanged">
         There was a problem uploading the picture. Please try again later.
     </b-alert>
+    <div style="color:#aaaaaa;font-size:10pt;">(Recommended: Square image, at least 200 x 200 pixels)</div>
   </div>
 </template>
 

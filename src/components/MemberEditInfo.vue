@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-form @submit="onSubmit">
+      <PictureUpload :member="member" class="mx-auto" style="max-width:600px;" />
       <b-container>
         <b-row class="my-3">
           <b-col sm="4">
@@ -102,12 +103,15 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker';
+import PictureUpload from "@/components/PictureUpload.vue";
+
 export default {
   props: {
     member: Object,
   },
   components: {
-    Datepicker
+    Datepicker,
+    PictureUpload
   },
   data() {
     return {
