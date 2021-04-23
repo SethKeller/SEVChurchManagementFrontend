@@ -17,7 +17,7 @@
             {{ member.Phone }}
           </b-card-text>
           <b-card-text>
-            <b-button v-b-toggle="`id-${member.id}`" variant="primary" style="margin-top:-8px;">
+            <b-button v-b-modal="`id-${member.id}`" variant="primary" style="margin-top:-8px;">
               Edit
             </b-button>
           </b-card-text>
@@ -25,7 +25,7 @@
       </b-col>
     </b-row>
     <b-row md="12" class="mx-auto" style="width:100%;">
-      <b-collapse :id="`id-${member.id}`" title="Sidebar" right shadow style="width:100%;">
+      <b-modal :id="`id-${member.id}`" :title="'Edit Member - '+member.FirstName+' '+member.LastName" shadow hide-backdrop ok-only>
         <div class="px-3 py-2">
           <div>
             <MemberEditInfo
@@ -51,7 +51,7 @@
             </div>
           </div>
         </div>
-      </b-collapse>
+      </b-modal>
     </b-row>
   </b-card>
 </template>
