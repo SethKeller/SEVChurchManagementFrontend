@@ -11,6 +11,7 @@ import PictureTest from "../views/test/PictureTest.vue";
 import Login from "../views/Login.vue";
 import PageNotFound from "../views/PageNotFound.vue";
 import Reports from "../views/Reports.vue";
+import registerUser from "../views/registerUser.vue";
 
 Vue.use(VueRouter);
 
@@ -88,6 +89,11 @@ const routes = [
     path: "/reports",
     name: "Reports",
     component: Reports
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: registerUser
   }
 ];
 
