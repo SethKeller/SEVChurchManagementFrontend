@@ -1,10 +1,24 @@
 <template>
   <div>
-    Family:
-    <b-button @click="createFamilyPDF">Generate PDF</b-button>
+    <h1 class="pb-3">Reports</h1>
+    <p>Clicking a button below will create and download a PDF</p>
+    <b-button
+      class="m-2"
+      size="lg"
+      pill
+      variant="primary"
+      @click="createFamilyPDF"
+      >Create Familys PDF</b-button
+    >
     <br />
-    Members:
-    <b-button @click="createMemberPDF">Generate PDF</b-button>
+    <b-button
+      class="m-2"
+      size="lg"
+      pill
+      variant="primary "
+      @click="createMemberPDF"
+      >Create Members PDF</b-button
+    >
     <br />
   </div>
 </template>
