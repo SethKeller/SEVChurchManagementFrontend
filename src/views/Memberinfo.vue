@@ -1,6 +1,17 @@
 <template>
   <div>
-    <MemberEditInfo :member="member" v-on:formSubmitted="submitForm" />
+    <b-alert
+      dismissible
+      style="width:70%;max-width:540px"
+      class="mx-auto"
+      :variant="alertType"
+      :show="alertCountdown"
+      @dismissed="dismissCountdown = 0"
+      @dismiss-count-down="alertCountdownChanged"
+    >
+        {{ alertMessage }}
+    </b-alert>
+    <MemberEditInfo :member="member" v-on:formSubmitted="submitForm" style="width:70%;max-width:540px" class="mx-auto" />
   </div>
 </template>
 
@@ -19,7 +30,10 @@ export default {
   },
   data() {
     return {
-      member: {}
+      member: {},
+      alertMessage: 'Member info updated!',
+      alertType: 'success',
+      alertCountdown: 0
     };
   },
   created() {
@@ -31,11 +45,18 @@ export default {
     submitForm() {
       MemberInfoServices.updatePeople(this.currentUser.id, this.member)
         .then(() => {
-          this.$router.go(this.$router.currentRoute);
-          console.log("member updated!");
+          //this.$router.go(this.$router.currentRoute); // Reload the page
+          console.log("Member updated!");
+          // Show success alert
+          this.alertMessage = 'Member info updated!';
+          this.alertType = 'success';
+          this.alertCountdown = 4;
         })
-        .catch(error => {
-          this.message = error.response;
+        .catch((error) => {
+          // Show error alert
+          this.alertMessage = error.response;
+          this.alertType = 'error';
+          this.alertCountdown = 4;
         });
     },
     getPeople(id) {
@@ -47,6 +68,9 @@ export default {
         .catch(error => {
           this.message = error.response.data.message;
         });
+    },
+    alertCountdownChanged(countdown) {
+      this.alertCountdown = countdown;
     }
   }
 };
