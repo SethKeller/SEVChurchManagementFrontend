@@ -141,7 +141,6 @@
         </b-alert>
       </b-container>
     </b-form>
-    {{ this.password }}
   </div>
 </template>
 

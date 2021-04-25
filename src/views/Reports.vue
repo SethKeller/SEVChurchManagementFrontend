@@ -109,7 +109,7 @@ export default {
   methods: {
     // GET a list of families
     getAllFamilies() {
-      FamilyMemberServices.getAllFamilies()
+      FamilyMemberServices.getFamilies()
         .then(response => {
           this.families = response.data;
         })
@@ -129,8 +129,6 @@ export default {
         });
     },
     createFamilyPDF() {
-      this.familiesArr.forEach(f => console.log(f[0]));
-
       const doc = new jsPDF();
       doc.autoTable({
         head: [
