@@ -109,7 +109,7 @@ export default {
   methods: {
     // GET a list of families
     getAllFamilies() {
-      FamilyMemberServices.getAllFamilies()
+      FamilyMemberServices.getFamilies()
         .then(response => {
           this.families = response.data;
         })
@@ -131,6 +131,8 @@ export default {
     createFamilyPDF() {
       this.familiesArr.forEach(f => console.log(f[0]));
 
+      console.log(this.familiesArr);
+
       const doc = new jsPDF();
       doc.autoTable({
         head: [
@@ -147,6 +149,7 @@ export default {
         head: [["Last", "First", "Email", "Phone", "Address"]],
         body: this.membersArr
       });
+      console.log(this.membersArr);
 
       doc.save("members-report.pdf");
     }
