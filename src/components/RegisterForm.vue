@@ -65,14 +65,56 @@
               v-model="newFamilyName"
             ></b-form-input>
 
-            <b-button size="sm" @click="createFamily" class="m-2" variant="outline-success"
+            <b-button
+              size="sm"
+              @click="createFamily"
+              class="m-2"
+              variant="outline-success"
               >Save</b-button
             >
-            <b-button size="sm" v-b-toggle.collapse-family class="m-2" variant=""
+            <b-button
+              size="sm"
+              v-b-toggle.collapse-family
+              class="m-2"
+              variant=""
               >Hide</b-button
             >
           </b-card>
         </b-collapse>
+        <!-- head of family -->
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-head" class="pt-1">Head of Family:</label>
+          </b-col>
+          <b-col sm="8">
+            <b-form-group label-for="input-group-head" class="mb-0">
+              <b-form-checkbox
+                id="input-group-head"
+                v-model="familyRole"
+                name="checkbox-1"
+                value="true"
+                unchecked-value="false"
+              >
+              </b-form-checkbox>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <!-- setting permissions -->
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-permissions" class="pt-1"
+              >Permissions:</label
+            >
+          </b-col>
+          <b-col sm="8">
+            <b-form-checkbox-group
+              v-model="selectedPermissions"
+              :options="permissions"
+              class="mb-3"
+            ></b-form-checkbox-group>
+          </b-col>
+        </b-row>
+        <!-- password field -->
         <b-row class="my-3">
           <b-col sm="4">
             <label for="input-group-password" class="pt-1"
@@ -94,24 +136,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <!-- head of family -->
-        <b-row class="my-3">
-          <b-col sm="4">
-            <label for="input-group-head" class="pt-1">Head of Family:</label>
-          </b-col>
-          <b-col sm="8">
-            <b-form-group label-for="input-group-head" class="mb-0">
-              <b-form-checkbox
-                id="input-group-head"
-                v-model="familyRole"
-                name="checkbox-1"
-                value="true"
-                unchecked-value="false"
-              >
-              </b-form-checkbox>
-            </b-form-group>
-          </b-col>
-        </b-row>
+        <!-- submit form button -->
         <b-row>
           <b-col></b-col>
           <b-col style="place-items: center; display: grid;"
@@ -171,7 +196,9 @@ export default {
       alertMessage: null,
       successAlertCountdown: 0,
       errorAlertCountdown: 0,
-      newFamily: ""
+      newFamily: "",
+      permissions: ["user", "admin"],
+      selectedPermissions: []
     };
   },
   watch: {
@@ -212,7 +239,10 @@ export default {
       delete this.member.FamilyRole;
       if (this.familyRole == "true") this.member.FamilyRole = 1;
       this.member.Password = this.password;
+      // set user family
       this.member.FamilyId = this.selected;
+      // set user permissions for system
+      this.member.Roles = this.permissions;
 
       AuthServices.register(this.member)
         .then(res => {
