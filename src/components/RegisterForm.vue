@@ -217,6 +217,7 @@ export default {
     }
   },
   methods: {
+    // Add a new fam
     createFamily() {
       this.newFamily = {
         FamilyName: this.newFamilyName,
