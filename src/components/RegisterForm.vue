@@ -41,6 +41,22 @@
             ></b-form-input>
           </b-col>
         </b-row>
+        <!-- address selection list -->
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-address" class="pt-1">Address:</label>
+          </b-col>
+          <b-col sm="8">
+            <b-form-group label-for="input-group-address" class="mb-0">
+              <b-form-select
+                id="input-group-address"
+                v-model="selectedAddress"
+                :options="addresses"
+              ></b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <!-- family selection list -->
         <b-row class="my-3">
           <b-col sm="4">
             <label for="input-group-family" class="pt-1">Family:</label>
@@ -124,7 +140,7 @@
           <b-col sm="8">
             <b-form-group
               label-for="input-group-password"
-              description="Password is randomly generated."
+              description="Password was randomly generated"
               class="mb-0"
             >
               <b-form-input
@@ -172,6 +188,7 @@
 <script>
 import AuthServices from "../services/AuthServices.js";
 import FamilyMemberServices from "../services/FamilyMemberServices.js";
+import AddressServices from "../services/AddressServices.js";
 
 export default {
   props: {
@@ -187,18 +204,23 @@ export default {
   data() {
     return {
       password: null,
-      families: ["No Selection", "*Create Family"],
+      families: [
+        { value: null, text: "Please select an option" },
+        "*Create Family"
+      ],
+      addresses: [{ value: null, text: "Please select an option" }],
+      selectedAddress: null,
       selected: null,
       newFamilyName: "",
       familyRole: "",
+      newFamily: "",
+      permissions: ["user", "admin"],
+      selectedPermissions: [],
       show: true,
       dateConverted: false,
       alertMessage: null,
       successAlertCountdown: 0,
-      errorAlertCountdown: 0,
-      newFamily: "",
-      permissions: ["user", "admin"],
-      selectedPermissions: []
+      errorAlertCountdown: 0
     };
   },
   watch: {
@@ -239,15 +261,34 @@ export default {
       // reset family role
       delete this.member.FamilyRole;
       if (this.familyRole == "true") this.member.FamilyRole = 1;
+      // set password
       this.member.Password = this.password;
       // set user family
       this.member.FamilyId = this.selected;
       // set user permissions for system
       this.member.Roles = this.permissions;
 
+      // Submit new User to DB
       AuthServices.register(this.member)
         .then(res => {
           this.successAlertCountdown = 10;
+
+          if (this.selectedAddress) {
+            // add address for person to DB
+            AddressServices.addAddress({
+              City: this.selectedAddress.City,
+              HouseNumber: this.selectedAddress.HouseNumber,
+              Street: this.selectedAddress.Street,
+              State: this.selectedAddress.State,
+              Zipcode: this.selectedAddress.Zipcode,
+              PersonId: res.data.data.id,
+              Active: 1
+            })
+              .then(res => console.log(res))
+              // handle error for adding address
+              .catch(err => (this.alertMessage = err.response.data.message));
+          }
+
           this.alertMessage =
             res.data.message || "Member successfully registered!";
         })
@@ -269,6 +310,11 @@ export default {
       FamilyMemberServices.getFamilies()
         .then(res => {
           res.data.forEach(family => {
+            // get address from head of family
+            if (this.getHeadAddress(family).text) {
+              this.addresses.push(this.getHeadAddress(family));
+            }
+
             // check if incoming family is already in selection list
             if (this.families.filter(e => e.value === family.id).length == 0)
               // put data into array of objects for dropdown list: {value: id, text: familyName}
@@ -278,6 +324,23 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    // searches through members in a family for head of family
+    // returns: head of family address
+    getHeadAddress(family) {
+      let address = null;
+      let addressStr = null;
+      family.people.forEach(person => {
+        if (person.FamilyRole == 1 && person.addresses[0])
+          address = person.addresses[0];
+      });
+      if (address)
+        addressStr = `${address.HouseNumber} ${address.Street} ${address.City} ${address.State}`;
+
+      return {
+        value: address,
+        text: addressStr
+      };
     }
   }
 };
