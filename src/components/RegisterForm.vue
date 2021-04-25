@@ -207,6 +207,8 @@ export default {
     onSubmit() {
       event.preventDefault();
       // initialize additional member data before sending to the backend
+      // reset family role
+      delete this.member.FamilyRole;
       if (this.familyRole == "true") this.member.FamilyRole = 1;
       this.member.Password = this.tempPass;
       this.member.FamilyId = this.selected;
