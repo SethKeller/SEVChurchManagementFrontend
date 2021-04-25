@@ -87,9 +87,9 @@
             >
               <b-form-input
                 id="input-group-password"
-                v-model="member.Password"
+                v-model="password"
                 required
-                placeholder="Password"
+                placeholder="Please enter a password"
               ></b-form-input>
             </b-form-group>
           </b-col>
@@ -141,6 +141,7 @@
         </b-alert>
       </b-container>
     </b-form>
+    {{ this.password }}
   </div>
 </template>
 
@@ -155,12 +156,13 @@ export default {
   components: {},
   created() {
     // assign generated temp password to the member
-    this.member.Password = this.tempPass;
+    this.password = this.tempPass;
     // get families to populate selection list
     this.getFamilies();
   },
   data() {
     return {
+      password: null,
       families: ["No Selection", "*Create Family"],
       selected: null,
       newFamilyName: "",
@@ -210,7 +212,7 @@ export default {
       // reset family role
       delete this.member.FamilyRole;
       if (this.familyRole == "true") this.member.FamilyRole = 1;
-      this.member.Password = this.tempPass;
+      this.member.Password = this.password;
       this.member.FamilyId = this.selected;
 
       AuthServices.register(this.member)
