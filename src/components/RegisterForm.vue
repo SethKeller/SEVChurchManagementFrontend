@@ -65,8 +65,11 @@
               v-model="newFamilyName"
             ></b-form-input>
 
-            <b-button @click="createFamily" class="m-2" variant="primary"
+            <b-button size="sm" @click="createFamily" class="m-2" variant="outline-success"
               >Save</b-button
+            >
+            <b-button size="sm" v-b-toggle.collapse-family class="m-2" variant=""
+              >Hide</b-button
             >
           </b-card>
         </b-collapse>
@@ -109,10 +112,12 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row class="my-3 mt-4">
+        <b-row>
           <b-col></b-col>
-          <b-col
-            ><b-button variant="success" type="submit">Submit</b-button></b-col
+          <b-col style="place-items: center; display: grid;"
+            ><b-button variant="outline-success" type="submit"
+              >Submit</b-button
+            ></b-col
           >
           <b-col></b-col>
         </b-row>
