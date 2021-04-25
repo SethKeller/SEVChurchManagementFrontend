@@ -70,24 +70,6 @@
             >
           </b-card>
         </b-collapse>
-        <!-- head of family -->
-        <b-row class="my-3">
-          <b-col sm="4">
-            <label for="input-group-head" class="pt-1">Head of Family:</label>
-          </b-col>
-          <b-col sm="8">
-            <b-form-group label-for="input-group-head">
-              <b-form-checkbox
-                id="input-group-head"
-                v-model="familyRole"
-                name="checkbox-1"
-                value="true"
-                unchecked-value="false"
-              >
-              </b-form-checkbox>
-            </b-form-group>
-          </b-col>
-        </b-row>
         <b-row class="my-3">
           <b-col sm="4">
             <label for="input-group-password" class="pt-1"
@@ -106,6 +88,24 @@
                 required
                 placeholder="Password"
               ></b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <!-- head of family -->
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-head" class="pt-1">Head of Family:</label>
+          </b-col>
+          <b-col sm="8">
+            <b-form-group label-for="input-group-head" class="mb-0">
+              <b-form-checkbox
+                id="input-group-head"
+                v-model="familyRole"
+                name="checkbox-1"
+                value="true"
+                unchecked-value="false"
+              >
+              </b-form-checkbox>
             </b-form-group>
           </b-col>
         </b-row>
@@ -245,4 +245,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+#input-group-head {
+  width: 40px;
+}
+</style>
