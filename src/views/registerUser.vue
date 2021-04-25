@@ -10,6 +10,7 @@
         class="mx-auto"
       />
     </b-modal>
+    {{ this.display }}
   </div>
 </template>
 
@@ -28,21 +29,21 @@ export default {
       alertType: "success",
       alertCountdown: 0,
       member: {
-        FirstName: "Jamie",
-        LastName: "Lannister",
-        DisplayName: "J Lannister",
-        DateofBirth: "1979-06-16 14:31:21",
-        Email: "jamie3@gmail.com",
+        FirstName: "Jesus",
+        LastName: "Christ",
+        Email: "itslit@gmail.com",
         Phone: "5551234"
-      }
+      },
+      display: ""
     };
   },
   methods: {
     picturePath: function() {
       return MemberInfoServices.getPictureRootPath();
     },
-    submitForm() {
-      return 0;
+    submitForm(member) {
+      // console.log(member);
+      this.display = member;
     }
   },
   created() {}

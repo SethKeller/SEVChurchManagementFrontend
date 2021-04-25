@@ -43,6 +43,35 @@
         </b-row>
         <b-row class="my-3">
           <b-col sm="4">
+            <label for="input-group-family" class="pt-1">Family:</label>
+          </b-col>
+          <b-col sm="8">
+            <b-form-group label-for="input-group-family" class="mb-0">
+              <b-form-select
+                id="input-group-family"
+                v-model="selected"
+                :options="families"
+                required
+              ></b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <!-- beginning of collapse to create a family -->
+        <b-collapse id="collapse-family" class="mt-2">
+          <b-card>
+            <b-form-input
+              id="input-newFamilyName"
+              placeholder="Family Name"
+              v-model="newFamilyName"
+            ></b-form-input>
+
+            <b-button @click="createFamily" class="m-2" variant="primary"
+              >Save</b-button
+            >
+          </b-card>
+        </b-collapse>
+        <b-row class="my-3">
+          <b-col sm="4">
             <label for="input-group-password" class="pt-1"
               >Temporary Password:</label
             >
@@ -55,68 +84,139 @@
             >
               <b-form-input
                 id="input-group-password"
-                v-model="this.tempPass"
+                v-model="member.Password"
                 required
                 placeholder="Password"
               ></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row>
-          <b-col class="mx-2"
+        <b-row class="my-3 mt-4">
+          <b-col></b-col>
+          <b-col
             ><b-button variant="success" type="submit">Submit</b-button></b-col
           >
-          <b-col class="mx-2"
-            ><b-button variant="primary" to="/">Home</b-button></b-col
-          >
+          <b-col></b-col>
         </b-row>
+        {{ this.newFamily }}
+
+        <b-alert
+          class="m-2"
+          :show="successAlertCountdown"
+          variant="success"
+          dismissible
+          @dismiss-count-down="successAlertChanged"
+        >
+          {{ this.alertMessage }}
+        </b-alert>
+        <b-alert
+          class="m-2"
+          :show="errorAlertCountdown"
+          variant="danger"
+          dismissible
+          @dismiss-count-down="errorAlertChanged"
+        >
+          {{ this.alertMessage }}
+        </b-alert>
       </b-container>
     </b-form>
   </div>
 </template>
 
 <script>
+import AuthServices from "../services/AuthServices.js";
+import FamilyMemberServices from "../services/FamilyMemberServices.js";
+
 export default {
   props: {
     member: Object
   },
   components: {},
+  created() {
+    // assign generated temp password to the member
+    this.member.Password = this.tempPass;
+    // get families to populate selection list
+    this.getFamilies();
+  },
   data() {
     return {
+      families: ["No Selection", "Create Family"],
+      selected: null,
+      newFamilyName: "",
       show: true,
-      dateConverted: false
+      dateConverted: false,
+      alertMessage: null,
+      successAlertCountdown: 0,
+      errorAlertCountdown: 0,
+      newFamily: ""
     };
   },
+  watch: {
+    selected: function() {
+      if (this.isCreateFamily)
+        this.$root.$emit("bv::toggle::collapse", "collapse-family");
+    }
+  },
   computed: {
-    // Date handler to prevent timezone conversions in the date picker
+    // Randomly create a temporary password for the new user
     tempPass() {
-      return Math.floor(Math.random() * 5000) + 1000;
+      return (Math.floor(Math.random() * 8999) + 1000).toString();
     },
-    dateOfBirth: {
-      get() {
-        if (!this.dateConverted)
-          return new Date(this.member.DateofBirth.slice(0, 10) + " 12:00:00");
-        else return this.member.DateofBirth;
-      },
-      set(newVal) {
-        this.member.DateofBirth = new Date(
-          newVal.getFullYear(),
-          newVal.getMonth(),
-          newVal.getDate()
-        );
-        this.dateConverted = true;
-      }
+    isCreateFamily() {
+      return this.selected == "Create Family";
     }
   },
   methods: {
+    createFamily() {
+      this.newFamily = {
+        FamilyName: this.newFamilyName
+      };
+      FamilyMemberServices.addFamily(this.newFamily)
+        .then(res => {
+          this.getFamilies();
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     onSubmit() {
-      // Ensure date is saved correctly
-      this.member.DateofBirth = new Date(
-        this.dateOfBirth.getFullYear(),
-        this.dateOfBirth.getMonth(),
-        this.dateOfBirth.getDate()
-      );
+      this.member.Password = this.tempPass;
+      this.member.FamilyId = this.selected;
+
+      AuthServices.register(this.member)
+        .then(res => {
+          this.successAlertCountdown = 10;
+          this.alertMessage =
+            res.data.message || "Member successfully registered!";
+        })
+        .catch(err => {
+          this.errorAlertCountdown = 6;
+          this.alertMessage =
+            err.response.data.message || "There was a problem registering user";
+        });
+
       this.$emit("formSubmitted");
+    },
+    successAlertChanged: function(countdown) {
+      this.successAlertCountdown = countdown;
+    },
+    errorAlertChanged: function(countdown) {
+      this.errorAlertCountdown = countdown;
+    },
+    getFamilies() {
+      FamilyMemberServices.getFamilies()
+        .then(res => {
+          res.data.forEach(family => {
+            // check if incoming family is already in selection list
+            if (this.families.filter(e => e.value === family.id).length == 0)
+              // put data into array of objects for dropdown list: {value: id, text: familyName}
+              this.families.push({ value: family.id, text: family.FamilyName });
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
