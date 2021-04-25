@@ -70,6 +70,24 @@
             >
           </b-card>
         </b-collapse>
+        <!-- head of family -->
+        <b-row class="my-3">
+          <b-col sm="4">
+            <label for="input-group-head" class="pt-1">Head of Family:</label>
+          </b-col>
+          <b-col sm="8">
+            <b-form-group label-for="input-group-head">
+              <b-form-checkbox
+                id="input-group-head"
+                v-model="familyRole"
+                name="checkbox-1"
+                value="true"
+                unchecked-value="false"
+              >
+              </b-form-checkbox>
+            </b-form-group>
+          </b-col>
+        </b-row>
         <b-row class="my-3">
           <b-col sm="4">
             <label for="input-group-password" class="pt-1"
@@ -98,8 +116,6 @@
           >
           <b-col></b-col>
         </b-row>
-        {{ this.newFamily }}
-
         <b-alert
           class="m-2"
           :show="successAlertCountdown"
@@ -140,9 +156,10 @@ export default {
   },
   data() {
     return {
-      families: ["No Selection", "Create Family"],
+      families: ["No Selection", "*Create Family"],
       selected: null,
       newFamilyName: "",
+      familyRole: "",
       show: true,
       dateConverted: false,
       alertMessage: null,
@@ -163,16 +180,18 @@ export default {
       return (Math.floor(Math.random() * 8999) + 1000).toString();
     },
     isCreateFamily() {
-      return this.selected == "Create Family";
+      return this.selected == "*Create Family";
     }
   },
   methods: {
     createFamily() {
       this.newFamily = {
-        FamilyName: this.newFamilyName
+        FamilyName: this.newFamilyName,
+        CongregationId: 1
       };
       FamilyMemberServices.addFamily(this.newFamily)
         .then(res => {
+          // refresh our family selection list
           this.getFamilies();
           console.log(res);
         })
@@ -181,6 +200,9 @@ export default {
         });
     },
     onSubmit() {
+      event.preventDefault();
+      // initialize additional member data before sending to the backend
+      if (this.familyRole == "true") this.member.FamilyRole = 1;
       this.member.Password = this.tempPass;
       this.member.FamilyId = this.selected;
 
