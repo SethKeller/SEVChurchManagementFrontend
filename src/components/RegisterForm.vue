@@ -281,12 +281,12 @@ export default {
               Street: this.selectedAddress.Street,
               State: this.selectedAddress.State,
               Zipcode: this.selectedAddress.Zipcode,
-              PersonId: res.data.data.id,
+              PersonId: res.data.person.id,
               Active: 1
             })
               .then(res => console.log(res))
               // handle error for adding address
-              .catch(err => (this.alertMessage = err.response.data.message));
+              .catch(err => (this.alertMessage = err.response.data.message || "error with address"));
           }
 
           this.alertMessage =
