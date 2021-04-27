@@ -30,7 +30,7 @@
           <div>
             <MemberEditInfo
               :member="member"
-               v-on:formSubmitted="submitForm(member.id)"
+               v-on:formSubmitted="submitMember(member.id)"
             />
             <b-alert
               dismissible
@@ -46,7 +46,8 @@
             <div>
               <AddressEdit
               :member="member"
-               v-on:formSubmitted="submitForm(address.id)"
+               v-on:formSubmitted="addressSuccess"
+               v-on:formError="addressError"
               />
             </div>
           </div>
@@ -84,7 +85,7 @@ export default {
     picturePath: function() {
       return MemberInfoServices.getPictureRootPath();
     },
-    submitForm(id) {
+    submitMember(id) {
       var hasError = false,
           errorMessage = "";
       
@@ -135,12 +136,24 @@ export default {
           this.message = error.response.data.message;
         });
     },
+    addressSuccess() {
+      // Show success alert
+      this.alertMessage = 'Address updated!';
+      this.alertType = 'success';
+      this.alertCountdown = 4;
+    },
+    addressError() {
+      // Show error alert
+      this.alertMessage = "There was an error saving the address";
+      this.alertType = 'error';
+      this.alertCountdown = 4;
+    },
     alertCountdownChanged(countdown) {
       this.alertCountdown = countdown;
     }
   },
   created() {
-      this.getAddress(this.member.id);
+    this.getAddress(this.member.id);
     // Test data if info card was not created with a member object
     if (this.member == undefined) {
       this.member = {

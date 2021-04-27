@@ -113,7 +113,7 @@
         <h3>Family Members:</h3>
         <FamilyInfo
           v-for="member in members"
-          :key="member.LASTNAME"
+          :key="member.FamilyRole"
           :member="member"
           class="m-2 d-md-inline-block"
         />
@@ -152,10 +152,6 @@ export default {
     };
   },
   created() {
-    // Get page number from URL
-    if (this.$route.query.page != undefined && this.$route.query.page != "")
-      this.page = parseInt(this.$route.query.page);
-
     // Fetch the correct family based on passed-in prop
     if (this.familyId == "" || this.familyId == undefined)
         console.error("Error: Family ID not provided!");
@@ -226,9 +222,7 @@ export default {
         if (this.members[i].FamilyRole === 1) {
           this.headOfFamily = this.members[i];
           this.address = this.headOfFamily.addresses;
-          if (this.address[i].Active === 1){
-            this.headAddress = this.address[i]
-          }
+          this.headAddress = this.address.find(a => a.Active === 1);
           break;
         }
       }

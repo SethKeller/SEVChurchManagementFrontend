@@ -12,6 +12,7 @@
     ></b-form-file>
     <b-alert show v-if="pictureFile" class="pt-2">
         Confirm you would like to upload this picture:
+        <br/>
         <b-button @click="uploadPicture">Save</b-button>&nbsp;
         <b-button @click="resetPreview">Cancel</b-button>
     </b-alert>
