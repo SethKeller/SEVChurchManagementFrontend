@@ -7,7 +7,7 @@
       class="mx-auto"
       :variant="alertType"
       :show="alertCountdown"
-      @dismissed="dismissCountdown = 0"
+      @dismissed="alertCountdown = 0"
       @dismiss-count-down="alertCountdownChanged"
     >
         {{ alertMessage }}
@@ -149,9 +149,9 @@ export default {
       address: null,
       headAddress: null,
       show: true,
-      alertMessage: 'Member info updated!',
-      alertType: 'success',
-      alertCountdown: 0
+      alertMessage: 'Loading...',
+      alertType: 'secondary',
+      alertCountdown: 10
     };
   },
   created() {
@@ -170,7 +170,8 @@ export default {
           this.members = this.family.people;
           this.getHeadOfFamily();
           
-          //console.log("Loaded family:", this.family);
+          // Clear loading message
+          this.alertCountdown = 0;
         })
         .catch((error) => {
           this.message = error.response.data.message;
