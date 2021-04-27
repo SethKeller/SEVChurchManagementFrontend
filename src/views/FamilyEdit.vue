@@ -16,6 +16,7 @@
     <b-form @submit="onSubmit">
     <b-container fluid>
       <b-container style="width:70%;max-width:540px" class="mx-auto">
+        <PictureUpload :family="family" class="mx-auto" style="max-width:600px;" />
         <b-row class="my-3">
           <b-col sm="4">
             <label for="input-group-fname" class="pt-1">Family Name:</label>
@@ -128,11 +129,13 @@ import FamilyInfo from "@/components/FamilyInfo";
 import FamilyInfoServices from "../services/FamilyMemberServices";
 import AddressService from "../services/AddressServices";
 import MemberService from "../services/MemberListServices";
+import PictureUpload from "@/components/PictureUpload.vue";
 
 export default {
   name: "MemberInfo",
   components: {
     FamilyInfo,
+    PictureUpload
   },
   props: {
     familyId: String

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-img thumbnail class="display-picture shadow rounded" :src="previewImage == null ? this.picturePath() + member.Picture : previewImage" />
+    <b-img thumbnail class="display-picture shadow rounded" :src="previewImage == null ? this.picturePath() + entity.Picture : previewImage" />
     <h5 class="pt-3">Upload new picture:</h5>
     <b-form-file
         v-model="pictureFile"
@@ -28,14 +28,20 @@
 
 <script>
 import MemberInfoServices from "@/services/Member-InfoServices.js";
+import FamilyMemberServices from "@/services/FamilyMemberServices.js";
 
 export default {
   name: "PictureUpload",
   props: {
-    member: Object
+    // Only one should be passed in, not both
+    member: Object,
+    family: Object
   },
   data() {
     return {
+      entity: {},         // The picture-supporting entity
+      service: {},        // The picture uploading service for the entity
+      familyMode: false,  // The picture uploading mode
       pictureFile: null,
       previewImage: null,
       successAlertCountdown: 0,
@@ -44,10 +50,10 @@ export default {
   },
   methods: {
     uploadPicture: function() {
-      MemberInfoServices.uploadPicture(this.member.id, this.pictureFile)
+      this.service.uploadPicture(this.entity.id, this.pictureFile)
         .then(response => {
           this.successAlertCountdown = 4;
-          this.member.Picture = response.data; // Save the returned picture URL in the data object
+          this.entity.Picture = response.data; // Save the returned picture URL in the data object
           this.pictureFile = null;
           console.info("Got upload response: ", response);
         })
@@ -71,10 +77,22 @@ export default {
       this.errorAlertCountdown = countdown;
     },
     picturePath: function() {
-      return MemberInfoServices.getPictureRootPath();
+      return this.service.getPictureRootPath();
     }
   },
-  created() {}
+  created() {
+    if (this.family != null && this.family != undefined) {
+      // Run image uploader in family mode
+      this.familyMode = true;
+      this.entity = this.family;
+      this.service = FamilyMemberServices;
+    } else if (this.member != null && this.member != undefined) {
+      // Run image uploader in member mode
+      this.familyMode = false;
+      this.entity = this.member;
+      this.service = MemberInfoServices;
+    }
+  }
 };
 </script>
 
