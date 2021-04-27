@@ -16,7 +16,7 @@
     <b-form @submit="onSubmit">
     <b-container fluid>
       <b-container style="width:70%;max-width:540px" class="mx-auto">
-        <PictureUpload :family="family" class="mx-auto" style="max-width:600px;" />
+        <PictureUpload :family="family" :canEdit="hasEditAccess()" class="mx-auto" style="max-width:600px;" />
         <b-row class="my-3">
           <b-col sm="4">
             <label for="input-group-fname" class="pt-1">Family Name:</label>
@@ -27,6 +27,7 @@
               v-model="family.FamilyName"
               required
               placeholder="Family Name"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -39,7 +40,8 @@
               id="input-group-dname"
               v-model="headAddress.Street"
               required
-              placeholder="Display Name"
+              placeholder="Street"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -52,7 +54,8 @@
               id="input-group-Phone"
               v-model="headAddress.HouseNumber"
               required
-              placeholder="Phone number"
+              placeholder="House Number"
+              :plaintext="!hasEditAccess()"
             >
             </b-form-input>
           </b-col>
@@ -66,7 +69,8 @@
               id="input-group-lname"
               v-model="headAddress.City"
               required
-              placeholder="Last Name"
+              placeholder="City"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -79,7 +83,8 @@
               id="input-group-dname"
               v-model="headAddress.State"
               required
-              placeholder="Display Name"
+              placeholder="State"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -93,11 +98,12 @@
               v-model="headAddress.Zipcode"
               required
               placeholder="Zipcode"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
         
-        <b-row>
+        <b-row v-show="hasEditAccess()">
           <b-col sm="3" />
           <b-col class="mr-2" sm="3"
             ><b-button variant="success" type="submit">Submit</b-button></b-col
@@ -116,6 +122,7 @@
           v-for="member in members"
           :key="member.FamilyRole"
           :member="member"
+          :canEdit="hasEditAccess()"
           class="m-2 d-md-inline-block"
         />
       </b-container>
@@ -230,6 +237,14 @@ export default {
           break;
         }
       }
+    },
+    hasAdminAccess() {
+      return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+    },
+    hasEditAccess() {
+      // Check if user is allowed to edit the family (either admin or the head of this family)
+      var currentUser = this.$store.state.auth.user;
+      return (this.hasAdminAccess() || this.headOfFamily.id == currentUser.id);
     },
     alertCountdownChanged(countdown) {
       this.alertCountdown = countdown;

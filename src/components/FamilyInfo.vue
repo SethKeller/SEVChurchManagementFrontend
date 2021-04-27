@@ -16,7 +16,7 @@
             {{ member.Email }}<br />
             {{ member.Phone }}
           </b-card-text>
-          <b-card-text>
+          <b-card-text v-show="canEdit">
             <b-button v-b-modal="`id-${member.id}`" variant="primary" style="margin-top:-8px;">
               Edit
             </b-button>
@@ -30,7 +30,8 @@
           <div>
             <MemberEditInfo
               :member="member"
-               v-on:formSubmitted="submitMember(member.id)"
+              :canEdit="canEdit"
+              v-on:formSubmitted="submitMember(member.id)"
             />
             <b-alert
               dismissible
@@ -71,7 +72,8 @@ export default {
     AddressEdit
   },
   props: {
-    member: Object
+    member: Object,
+    canEdit: Boolean
   },
    data() {
     return {
