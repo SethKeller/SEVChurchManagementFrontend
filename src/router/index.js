@@ -46,7 +46,7 @@ const routes = [
   },
   {
     path: "/member-list",
-    name: "Member List",
+    name: "MemberList",
     component: MemberList
   },
   {
