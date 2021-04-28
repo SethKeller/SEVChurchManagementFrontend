@@ -343,8 +343,7 @@ export default {
       let address = null;
       let addressStr = null;
       family.people.forEach(person => {
-        if (person.FamilyRole == 1 && person.addresses[0])
-          address = person.addresses[0];
+        if (person.addresses[0]) address = person.addresses[0];
       });
       if (address)
         addressStr = `${address.HouseNumber} ${address.Street} ${address.City} ${address.State}`;
