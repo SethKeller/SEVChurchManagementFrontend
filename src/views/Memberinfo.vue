@@ -11,13 +11,14 @@
     >
         {{ alertMessage }}
     </b-alert>
-    <MemberEditInfo :member="member" v-on:formSubmitted="submitForm" style="width:70%;max-width:540px" class="mx-auto" />
+    <MemberEditInfo :member="member" :canEdit="true" v-on:formSubmitted="submitForm" style="width:70%;max-width:540px" class="mx-auto" />
   </div>
 </template>
 
 <script>
 import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
+import AddressService from "../services/AddressServices";
 
 export default {
   computed: {
@@ -58,6 +59,16 @@ export default {
           this.alertType = 'error';
           this.alertCountdown = 4;
         });
+         AddressService.updateAddress(this.address.id, this.address)
+        .then(() => {
+          console.log("Address updated!");
+        })
+        .catch((error) => {
+          this.alertMessage = error.response;
+          this.alertType = 'error';
+          this.alertCountdown = 4;
+        });
+
     },
     getPeople(id) {
       MemberInfoServices.getPeople(id)

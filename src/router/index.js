@@ -12,6 +12,11 @@ import Login from "../views/Login.vue";
 import PageNotFound from "../views/PageNotFound.vue";
 import Reports from "../views/Reports.vue";
 import registerUser from "../views/registerUser.vue";
+import GroupView from "../views/GroupView.vue";
+import GroupEdit from "../views/GroupEdit.vue"
+import Groups from "../views/AdminGroup.vue";
+import Families from "../views/FamilyList.vue";
+
 
 Vue.use(VueRouter);
 
@@ -49,7 +54,7 @@ const routes = [
   },
   {
     path: "/member-list",
-    name: "Member List",
+    name: "MemberList",
     component: MemberList
   },
   {
@@ -94,6 +99,27 @@ const routes = [
     path: "/register",
     name: "Register",
     component: registerUser
+  },
+  {
+    path: "/groups",
+    name: "GroupView",
+    component: GroupView
+  },
+  {
+    path:"/group-list",
+    name: "Groups",
+    component: Groups
+  },
+  {
+    path: "/FamiliesEdit",
+    name: "Families",
+    component: Families
+  },
+  {
+    path: "/GroupEdit/:groupId",
+    name: "GroupEdit",
+    component: GroupEdit,
+    props: true
   }
 ];
 

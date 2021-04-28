@@ -92,9 +92,11 @@ export default {
      AddressService.updateAddress(this.address.id, this.address)
         .then(() => {
           console.log("Address updated!");
+          this.$emit("formSubmitted");
         })
         .catch((error) => {
           this.message = error.response;
+          this.$emit("formError");
         });
     },
   },

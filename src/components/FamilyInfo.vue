@@ -16,42 +16,44 @@
             {{ member.Email }}<br />
             {{ member.Phone }}
           </b-card-text>
-          <b-card-text>
-            <b-button v-b-toggle="`id-${member.id}`" variant="primary">
-              Edit</b-button
-            >
+          <b-card-text v-show="canEdit">
+            <b-button v-b-modal="`id-${member.id}`" variant="primary" style="margin-top:-8px;">
+              Edit
+            </b-button>
           </b-card-text>
         </b-card-body>
       </b-col>
     </b-row>
     <b-row md="12" class="mx-auto" style="width:100%;">
-      <b-alert
-        dismissible
-        style="width:90%"
-        class="mx-auto"
-        :variant="alertType"
-        :show="alertCountdown"
-        @dismissed="dismissCountdown = 0"
-        @dismiss-count-down="alertCountdownChanged"
-      >
-          {{ alertMessage }}
-      </b-alert>
-      <b-collapse :id="`id-${member.id}`" title="Sidebar" right shadow style="width:100%;">
+      <b-modal :id="`id-${member.id}`" :title="'Edit Member - '+member.FirstName+' '+member.LastName" shadow hide-backdrop ok-only>
         <div class="px-3 py-2">
           <div>
             <MemberEditInfo
               :member="member"
-               v-on:formSubmitted="submitForm(member.id)"
+              :canEdit="canEdit"
+              v-on:formSubmitted="submitMember(member.id)"
             />
+            <b-alert
+              dismissible
+              style="width:90%"
+              class="mx-auto mt-3"
+              :variant="alertType"
+              :show="alertCountdown"
+              @dismissed="dismissCountdown = 0"
+              @dismiss-count-down="alertCountdownChanged"
+            >
+                {{ alertMessage }}
+            </b-alert>
             <div>
               <AddressEdit
               :member="member"
-               v-on:formSubmitted="submitForm(address.id)"
+               v-on:formSubmitted="addressSuccess"
+               v-on:formError="addressError"
               />
             </div>
           </div>
         </div>
-      </b-collapse>
+      </b-modal>
     </b-row>
   </b-card>
 </template>
@@ -60,17 +62,18 @@
 import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
 
-import AddressEdit from "../components/AddressEdit";
+//import AddressEdit from "../components/AddressEdit";
 import AddressService from "../services/AddressServices";
 
 export default {
   name: "MemberInfo",
   components: {
     MemberEditInfo,
-    AddressEdit
+  
   },
   props: {
-    member: Object
+    member: Object,
+    canEdit: Boolean
   },
    data() {
     return {
@@ -84,7 +87,7 @@ export default {
     picturePath: function() {
       return MemberInfoServices.getPictureRootPath();
     },
-    submitForm(id) {
+    submitMember(id) {
       var hasError = false,
           errorMessage = "";
       
@@ -96,15 +99,7 @@ export default {
           errorMessage = error.response;
           hasError = true;
         });
-      //var address =this.getAddress(this.member.id)
-      AddressService.updateAddress(this.address.id, this.address)
-        .then(() => {
-          console.log("Address updated!");
-        })
-        .catch((error) => {
-          errorMessage = error.response;
-          hasError = true;
-        });
+     
       
       if (!hasError) {
           // Show success alert
@@ -135,9 +130,24 @@ export default {
           this.message = error.response.data.message;
         });
     },
+    addressSuccess() {
+      // Show success alert
+      this.alertMessage = 'Address updated!';
+      this.alertType = 'success';
+      this.alertCountdown = 4;
+    },
+    addressError() {
+      // Show error alert
+      this.alertMessage = "There was an error saving the address";
+      this.alertType = 'error';
+      this.alertCountdown = 4;
+    },
+    alertCountdownChanged(countdown) {
+      this.alertCountdown = countdown;
+    }
   },
   created() {
-      this.getAddress(this.member.id);
+    this.getAddress(this.member.id);
     // Test data if info card was not created with a member object
     if (this.member == undefined) {
       this.member = {

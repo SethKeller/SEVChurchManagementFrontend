@@ -7,7 +7,7 @@
       class="mx-auto"
       :variant="alertType"
       :show="alertCountdown"
-      @dismissed="dismissCountdown = 0"
+      @dismissed="alertCountdown = 0"
       @dismiss-count-down="alertCountdownChanged"
     >
         {{ alertMessage }}
@@ -16,6 +16,7 @@
     <b-form @submit="onSubmit">
     <b-container fluid>
       <b-container style="width:70%;max-width:540px" class="mx-auto">
+        <PictureUpload :family="family" :canEdit="hasEditAccess()" class="mx-auto" style="max-width:600px;" />
         <b-row class="my-3">
           <b-col sm="4">
             <label for="input-group-fname" class="pt-1">Family Name:</label>
@@ -26,6 +27,7 @@
               v-model="family.FamilyName"
               required
               placeholder="Family Name"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -38,7 +40,8 @@
               id="input-group-dname"
               v-model="headAddress.Street"
               required
-              placeholder="Display Name"
+              placeholder="Street"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -51,7 +54,8 @@
               id="input-group-Phone"
               v-model="headAddress.HouseNumber"
               required
-              placeholder="Phone number"
+              placeholder="House Number"
+              :plaintext="!hasEditAccess()"
             >
             </b-form-input>
           </b-col>
@@ -65,7 +69,8 @@
               id="input-group-lname"
               v-model="headAddress.City"
               required
-              placeholder="Last Name"
+              placeholder="City"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -78,7 +83,8 @@
               id="input-group-dname"
               v-model="headAddress.State"
               required
-              placeholder="Display Name"
+              placeholder="State"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -92,11 +98,12 @@
               v-model="headAddress.Zipcode"
               required
               placeholder="Zipcode"
+              :plaintext="!hasEditAccess()"
             ></b-form-input>
           </b-col>
         </b-row>
         
-        <b-row>
+        <b-row v-show="hasEditAccess()">
           <b-col sm="3" />
           <b-col class="mr-2" sm="3"
             ><b-button variant="success" type="submit">Submit</b-button></b-col
@@ -113,8 +120,9 @@
         <h3>Family Members:</h3>
         <FamilyInfo
           v-for="member in members"
-          :key="member.LASTNAME"
+          :key="member.FamilyRole"
           :member="member"
+          :canEdit="hasEditAccess()"
           class="m-2 d-md-inline-block"
         />
       </b-container>
@@ -126,13 +134,15 @@
 <script>
 import FamilyInfo from "@/components/FamilyInfo";
 import FamilyInfoServices from "../services/FamilyMemberServices";
-import AddressService from "../services/AddressServices";
+//import AddressService from "../services/AddressServices";
 import MemberService from "../services/MemberListServices";
+import PictureUpload from "@/components/PictureUpload.vue";
 
 export default {
   name: "MemberInfo",
   components: {
     FamilyInfo,
+    PictureUpload
   },
   props: {
     familyId: String
@@ -146,16 +156,12 @@ export default {
       address: null,
       headAddress: null,
       show: true,
-      alertMessage: 'Member info updated!',
-      alertType: 'success',
-      alertCountdown: 0
+      alertMessage: 'Loading...',
+      alertType: 'secondary',
+      alertCountdown: 10
     };
   },
   created() {
-    // Get page number from URL
-    if (this.$route.query.page != undefined && this.$route.query.page != "")
-      this.page = parseInt(this.$route.query.page);
-
     // Fetch the correct family based on passed-in prop
     if (this.familyId == "" || this.familyId == undefined)
         console.error("Error: Family ID not provided!");
@@ -171,7 +177,8 @@ export default {
           this.members = this.family.people;
           this.getHeadOfFamily();
           
-          //console.log("Loaded family:", this.family);
+          // Clear loading message
+          this.alertCountdown = 0;
         })
         .catch((error) => {
           this.message = error.response.data.message;
@@ -191,14 +198,14 @@ export default {
           errorMessage = "";
       
       // Update data in the database
-      AddressService.updateAddress(this.headAddress.id, this.headAddress)
-        .then(() => {
-          console.log("Address updated!");
-        })
-        .catch((error) => {
-          errorMessage = error.response;
-          hasError = true;
-        });
+      // AddressService.updateAddress(this.headAddress.id, this.headAddress)
+      //   .then(() => {
+      //     console.log("Address updated!");
+      //   })
+      //   .catch((error) => {
+      //     errorMessage = error.response;
+      //     hasError = true;
+      //   });
       FamilyInfoServices.updateFamily(this.family.id, this.family)
         .then(() => {
           console.log("Family updated!");
@@ -226,12 +233,18 @@ export default {
         if (this.members[i].FamilyRole === 1) {
           this.headOfFamily = this.members[i];
           this.address = this.headOfFamily.addresses;
-          if (this.address[i].Active === 1){
-            this.headAddress = this.address[i]
-          }
+          this.headAddress = this.address.find(a => a.Active === 1);
           break;
         }
       }
+    },
+    hasAdminAccess() {
+      return this.$store.state.auth.user.roles.includes("ROLE_ADMIN");
+    },
+    hasEditAccess() {
+      // Check if user is allowed to edit the family (either admin or the head of this family)
+      var currentUser = this.$store.state.auth.user;
+      return (this.hasAdminAccess() || this.headOfFamily.id == currentUser.id);
     },
     alertCountdownChanged(countdown) {
       this.alertCountdown = countdown;

@@ -6,6 +6,7 @@
     <div id="page-buttons">
         <!--button v-on:click="prevPage">Prev</button>
         <button v-on:click="nextPage">Next</button-->
+        
     </div>
     <br/>    
     <table class= "mx-auto">
@@ -13,8 +14,10 @@
            <!-- <th class="list-header" width= "300px">First Name</th>
             <th class="list-header" width= "300px">Last Name</th> -->
         </tr>   
-        <MemberInfo v-for="member in members" :key="member.LASTNAME" :member="member"/>
+        <MemberInfo v-for="member in members" :key="member.LASTNAME" :member="member" v-on:edit-pressed="editMember" v-on:delete-pressed="deleteMember"/>
     </table>
+    <br/>
+    
 </div>
 </template>
 
@@ -26,7 +29,8 @@ export default {
   name: "MemberDirectory",
   components: {
     MemberInfo,
-    Search
+    Search,
+    
   },
   props: {},
   data() {
@@ -38,6 +42,17 @@ export default {
     };
   },
   methods: {
+    editMember(value) {
+      console.log(value);
+
+    },
+
+    deleteMember(value){
+      console.log(value);
+      
+      MemberListServices.deleteMember(value);
+    },
+
     getMemberList() {
       // TODO - call services to get list from API
        MemberListServices.getMembers() //this.page, this.searchQuery)
