@@ -89,6 +89,7 @@
           </b-col>
         </b-row>
         <b-row>
+          
           <b-col class="mx-2"
             ><b-button variant="success" type="submit">Submit</b-button></b-col
           >
@@ -96,6 +97,13 @@
             ><b-button variant="primary" to="/">Home</b-button></b-col
           >
         </b-row>
+          <div>
+           
+              <AddressEdit
+              :member="member"
+               v-on:formSubmitted="submitForm(address.id)"
+              />
+            </div>
       </b-container>
     </b-form>
   </div>
@@ -104,6 +112,8 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import PictureUpload from "@/components/PictureUpload.vue";
+import AddressEdit from "../components/AddressEdit";
+import AddressService from "../services/AddressServices";
 
 export default {
   props: {
@@ -112,12 +122,14 @@ export default {
   },
   components: {
     Datepicker,
-    PictureUpload
+    PictureUpload,
+    AddressEdit
   },
   data() {
     return {
       show: true,
-      dateConverted: false
+      dateConverted: false,
+      address:{}
     };
   },
   computed: {
@@ -136,7 +148,20 @@ export default {
     }
   },
   methods: {
+    getAddress(id) {
+      AddressService.getAddressByPerson(id)
+        .then((response) => {
+          if(this.address != null){
+            this.address = response.data[0];
+            console.log("Address:", this.address);
+          }         
+        })
+        .catch((error) => {
+          this.message = error.response.data.message;
+        });
+    },
     onSubmit() {
+      
       // Ensure date is saved correctly
       this.member.DateofBirth = new Date(this.dateOfBirth.getFullYear(), this.dateOfBirth.getMonth(), this.dateOfBirth.getDate());
       this.$emit("formSubmitted");
@@ -161,6 +186,7 @@ export default {
   mounted() {
     this.acceptNumber();
     this.acceptNumber2();
+    this.getAddress(this.member.id)
   },
 };
 </script>

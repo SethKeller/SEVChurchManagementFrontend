@@ -10,6 +10,12 @@ import FamilyEdit from "../views/FamilyEdit.vue";
 import PictureTest from "../views/test/PictureTest.vue";
 import Login from "../views/Login.vue";
 import PageNotFound from "../views/PageNotFound.vue";
+import Reports from "../views/Reports.vue";
+import GroupView from "../views/GroupView.vue";
+import GroupEdit from "../views/GroupEdit.vue"
+import Groups from "../views/AdminGroup.vue";
+import Families from "../views/FamilyList.vue";
+
 
 Vue.use(VueRouter);
 
@@ -82,6 +88,32 @@ const routes = [
     path: "*",
     name: "PageNotFound",
     component: PageNotFound
+  },
+  {
+    path: "/reports",
+    name: "Reports",
+    component: Reports
+  },
+  {
+    path: "/groups",
+    name: "GroupView",
+    component: GroupView
+  },
+  {
+    path:"/group-list",
+    name: "Groups",
+    component: Groups
+  },
+  {
+    path: "/FamiliesEdit",
+    name: "Families",
+    component: Families
+  },
+  {
+    path: "/GroupEdit/:groupId",
+    name: "GroupEdit",
+    component: GroupEdit,
+    props: true
   }
 ];
 

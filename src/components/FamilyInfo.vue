@@ -62,14 +62,14 @@
 import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
 
-import AddressEdit from "../components/AddressEdit";
+//import AddressEdit from "../components/AddressEdit";
 import AddressService from "../services/AddressServices";
 
 export default {
   name: "MemberInfo",
   components: {
     MemberEditInfo,
-    AddressEdit
+  
   },
   props: {
     member: Object,
@@ -99,15 +99,7 @@ export default {
           errorMessage = error.response;
           hasError = true;
         });
-      //var address =this.getAddress(this.member.id)
-      AddressService.updateAddress(this.address.id, this.address)
-        .then(() => {
-          console.log("Address updated!");
-        })
-        .catch((error) => {
-          errorMessage = error.response;
-          hasError = true;
-        });
+     
       
       if (!hasError) {
           // Show success alert

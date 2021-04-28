@@ -18,6 +18,7 @@
 <script>
 import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
+import AddressService from "../services/AddressServices";
 
 export default {
   computed: {
@@ -58,6 +59,16 @@ export default {
           this.alertType = 'error';
           this.alertCountdown = 4;
         });
+         AddressService.updateAddress(this.address.id, this.address)
+        .then(() => {
+          console.log("Address updated!");
+        })
+        .catch((error) => {
+          this.alertMessage = error.response;
+          this.alertType = 'error';
+          this.alertCountdown = 4;
+        });
+
     },
     getPeople(id) {
       MemberInfoServices.getPeople(id)

@@ -39,6 +39,7 @@
         <b-dropdown-item to="/Memberinfo" exact exact-active-class="active">
           Edit Member Information
         </b-dropdown-item>
+       
       </b-nav-item-dropdown>
       <b-nav-item-dropdown
         text="Administration"
@@ -52,9 +53,13 @@
         <b-dropdown-item to="/group-list" exact exact-active-class="active">
           Full Group List
         </b-dropdown-item>
+        <b-dropdown-item to="/FamiliesEdit" exact exact-active-class="active">
+          Full Family List
+        </b-dropdown-item>
         <b-dropdown-item to="/reports" exact exact-active-class="active">
           Reports
         </b-dropdown-item>
+        
         <b-dropdown-item to="/congregation" exact exact-active-class="active">
           Edit Congregation Info
         </b-dropdown-item>
