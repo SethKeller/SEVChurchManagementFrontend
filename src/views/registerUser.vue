@@ -2,7 +2,7 @@
   <div>
     <b-button v-b-modal.modal-1 variant="primary">Register Member</b-button>
 
-    <b-modal id="modal-1" title="Register Member">
+    <b-modal id="modal-1" title="Register Member" hide-backdrop>
       <RegisterForm
         :member="member"
         v-on:formSubmitted="submitForm"
