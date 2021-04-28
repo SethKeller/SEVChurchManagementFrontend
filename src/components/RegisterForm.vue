@@ -267,6 +267,14 @@ export default {
       this.member.FamilyId = this.selected;
       // set user permissions for system
       this.member.Roles = this.permissions;
+      // set default date to change later
+      this.member.DateofBirth = new Date();
+
+      if (this.member.FamilyId === "*Create Family") {
+        this.errorAlertCountdown = 6;
+        this.alertMessage = "Please select a family";
+        return 0;
+      }
 
       // Submit new User to DB
       AuthServices.register(this.member)
