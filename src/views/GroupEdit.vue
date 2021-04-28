@@ -57,7 +57,7 @@
               Add Member</b-button
             >
 
-            <b-modal id="bv-modal-example" hide-footer hide>
+            <b-modal id="bv-modal-example" hide-backdrop>
               <template #modal-title>
                 Add New people to the group
               </template>
@@ -195,37 +195,7 @@ export default {
         });
     },
     onSubmit() {
-      //   var hasError = false,
-      //       errorMessage = "";
-      //   // Update data in the database
-      //   AddressService.updateAddress(this.headAddress.id, this.headAddress)
-      //     .then(() => {
-      //       console.log("Address updated!");
-      //     })
-      //     .catch((error) => {
-      //       errorMessage = error.response;
-      //       hasError = true;
-      //     });
-      //   FamilyInfoServices.updateFamily(this.family.id, this.family)
-      //     .then(() => {
-      //       console.log("Family updated!");
-      //     })
-      //     .catch((error) => {
-      //       errorMessage = error.response;
-      //       hasError = true;
-      //     });
-      //   if (!hasError) {
-      //       // Show success alert
-      //       this.alertMessage = 'Family info updated!';
-      //       this.alertType = 'success';
-      //       this.alertCountdown = 4;
-      //   } else {
-      //       // Show error alert
-      //       this.alertMessage = errorMessage;
-      //       this.alertType = 'error';
-      //       this.alertCountdown = 4;
-      //   }
-    },
+},
     alertCountdownChanged(countdown) {
       this.alertCountdown = countdown;
     },
