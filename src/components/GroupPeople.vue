@@ -1,21 +1,24 @@
 <template>
   <transition name="modal" role="dialog">
-    <div class="modal" style="display: block">
+    <div class="modal" style="display: block;overflow:auto">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title"> Groups</h5>
+            <h4 class="modal-title">{{ euser.Name }}</h4>
           </div>
           <div class="modal-body">
+<!--
             <div>
               <b-table striped hover :items="member" :fields="fields"></b-table>
             </div>
-            <!-- <div>
-              <MemberEditInfo
-              :member="member"
-               v-on:formSubmitted="submitForm(member.id)"
-            /> -->
-          </div>
+-->
+            <div v-for="m in member" :key="m.id">
+              <MemberInfo
+                :member="m"
+                 v-on:formSubmitted="submitForm(member.id)"
+              />
+              <br/>
+            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" @click="closeModal">
               Close
@@ -24,16 +27,17 @@
         </div>
       </div>
     </div>
+    </div>
   </transition>
 </template>
 <script>
 import GroupPersonServices from "../services/GroupPersonServices";
-//import MemberEditInfo from "@/components/MemberEditInfo";
+import MemberInfo from "@/components/MemberInfo";
 
 export default {
-  //  components: {
-  //   MemberEditInfo,
-  // },
+    components: {
+     MemberInfo,
+   },
   props: {
     euser: {
       type: Object,

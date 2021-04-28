@@ -7,11 +7,11 @@
     <b-table striped hover :items="tableData" :fields="columns">
       <template #cell(action)="data">
         <b-button @click="goToFamily(data.item)" variant="primary" size="sm"
-          >view/add</b-button
-        >
+          >View/Add</b-button
+        >&nbsp;
         <b-button @click="editItem(data.item)" variant="primary" size="sm"
           >Edit</b-button
-        >
+        >&nbsp;
         <b-button
           @click="deleteItem(data.item)"
           v-b-modal="'edit-modal'"
@@ -22,7 +22,7 @@
       </template>
     </b-table>
 
-    <b-modal v-model="modalShow" :title="formTitle" hide-footer>
+    <b-modal v-model="modalShow" :title="formTitle" hide-footer hide-backdrop>
       <b-form @submit.prevent="save">
         <slot :formdata="editedItem" name="input-fields"> </slot>
 

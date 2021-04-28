@@ -34,16 +34,20 @@
 
           <b-container
             class="pb-4"
-            v-for="(item, index) in members"
-            :key="index"
           >
             <hr />
             <h3>Group Members:</h3>
 
-            <MemberEditInfo
-              :member="item"
-              v-on:formSubmitted="submitForm(member.id)"
-            />
+            <div
+              v-for="(item, index) in members"
+              :key="index"
+            >
+              <MemberEditInfo
+                :member="item"
+                v-on:formSubmitted="submitForm(member.id)"
+              />
+              <br/>
+            </div>
           </b-container>
 
           <div>
@@ -56,32 +60,20 @@
             >
               Add Member</b-button
             >
+            <br/><br/>
 
-            <b-modal id="bv-modal-example" hide-backdrop>
+            <b-modal id="bv-modal-example" hide-backdrop @ok="addGroupPerson">
               <template #modal-title>
                 Add New people to the group
               </template>
               <div class="d-block text-center">
                 <select class="form-control" @change="changeJobTitle($event)">
                   <option value="" selected disabled>Choose</option>
-                  <option v-for="p in people" :value="p.id" :key="p.id">{{
-                    p.FirstName
-                  }}</option>
+                  <option v-for="p in people" :value="p.id" :key="p.id">
+                    {{ p.FirstName }} {{ p.LastName }}
+                  </option>
                 </select>
-                <br /><br />
-                <p>
-                  <span
-                    >You add first name to this group :
-                    {{ selectedPeople }}</span
-                  >
-                </p>
               </div>
-              <b-button
-                class="mt-3"
-                block
-                @click="$bvModal.hide('bv-modal-example')"
-                >Close Me</b-button
-              >
             </b-modal>
           </div>
         </b-container>
@@ -119,6 +111,7 @@ export default {
       alertMessage: "Member info updated!",
       alertType: "success",
       alertCountdown: 0,
+      groupPerson: {}
     };
   },
   created() {
@@ -141,20 +134,19 @@ export default {
         event.target.options[event.target.options.selectedIndex].text;
       var data = this.people;
       for (var i = 0; i < data.length; i++) {
-          var fn = data[i].FirstName;
+          var fn = data[i].FirstName + ' ' + data[i].LastName;
         if (fn === this.selectedPeople) {
-          const groupPerson = {
+          this.groupPerson = {
             Leader: "test",
             PersonId: data[i].id,
             GroupId: this.groupId,
           };
-          this.addGroupPerson(groupPerson);
           break;
         }
       }
     },
-    addGroupPerson(data) {
-      GroupPersonServices.addGroupPerson(data)
+    addGroupPerson() {
+      GroupPersonServices.addGroupPerson(this.groupPerson)
         .then((response) => {
             console.log("Thank you!" + response);
         })

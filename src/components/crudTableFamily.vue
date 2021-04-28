@@ -4,8 +4,8 @@
 
         <b-table striped hover  :items="tableData" :fields="columns">
             <template #cell(action)="data">
-                <b-button @click="goToFamily(data.item)" variant="primary" size="sm">view</b-button>
-                <b-button @click="editItem(data.item)" variant="primary" size="sm">Edit</b-button>
+                <b-button @click="goToFamily(data.item)" variant="primary" size="sm">View</b-button>&nbsp;
+                <b-button @click="editItem(data.item)" variant="primary" size="sm">Edit</b-button>&nbsp;
                 <b-button @click="deleteItem(data.item)" v-b-modal="'edit-modal'" variant="danger" size="sm">Delete</b-button>
             </template>
         </b-table>

@@ -54,7 +54,7 @@
           Full Group List
         </b-dropdown-item>
         <b-dropdown-item to="/FamiliesEdit" exact exact-active-class="active">
-          FamilyEdit
+          Full Family List
         </b-dropdown-item>
         <b-dropdown-item to="/reports" exact exact-active-class="active">
           Reports

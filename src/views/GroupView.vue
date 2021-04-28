@@ -1,22 +1,22 @@
 <template>
   <div>
     <div class="form-group">
+      <h2>My Groups</h2>
+      <br/>
+      
       <table
         class="table table-bordered table-stripped"
         v-if="users.length > 0"
       >
-       
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Type</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(user, index) in users" :key="user.id">
-            <td>{{ index+1 }}</td>
+          <tr v-for="(user) in users" :key="user.id">
             <td>{{ user.Name }}</td>
             <td>{{ user.Type }}</td>
             <td>
@@ -54,6 +54,7 @@ export default {
   },
   data() {
     return {
+      currentUser: {},
       user: [],
       users: [],
       euser: {},
@@ -62,7 +63,8 @@ export default {
     };
   },
   created() {
-    this.getGroups(2);
+    this.currentUser = this.$store.state.auth.user;
+    this.getGroups(this.currentUser.id);
   },
   methods: {
     initEdit(user) {
