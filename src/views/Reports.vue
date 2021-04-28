@@ -8,7 +8,7 @@
       pill
       variant="primary"
       @click="createFamilyPDF"
-      >Create Familys PDF</b-button
+      >Create Families PDF</b-button
     >
     <br />
     <b-button
@@ -55,7 +55,7 @@ export default {
         family.people.forEach(p => {
           if (p.FamilyRole == 1) {
             head.push(p);
-            headNames.push(p.FirstName);
+            headNames.push(p.FirstName + " " + p.LastName);
           }
         });
         let familyName = family.FamilyName;
@@ -69,7 +69,7 @@ export default {
         let arr = [
           familyName,
           headNames.join(","),
-          address.Street,
+          (address.HouseNumber + " " + address.Street),
           address.City,
           address.State,
           address.Zipcode,
@@ -137,12 +137,12 @@ export default {
       const doc = new jsPDF();
       doc.autoTable({
         head: [
-          ["Family Name", "Head of Family", "Street", "City", "State", "Phone"]
+          ["Family Name", "Head of Family", "Street", "City", "State", "Zip", "Phone"]
         ],
         body: this.familiesArr
       });
 
-      doc.save("familys-report.pdf");
+      doc.save("families-report.pdf");
     },
     createMemberPDF() {
       const doc = new jsPDF();
