@@ -129,6 +129,7 @@ export default {
         });
     },
     createFamilyPDF() {
+
       this.familiesArr.forEach(f => console.log(f[0]));
 
       console.log(this.familiesArr);
