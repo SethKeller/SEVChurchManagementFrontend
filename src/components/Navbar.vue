@@ -16,6 +16,7 @@
       >
         Church Directory
       </b-nav-item>
+<!--
       <b-nav-item
         to="/messages"
         exact
@@ -24,6 +25,7 @@
       >
         Messages
       </b-nav-item>
+-->
       <b-nav-item-dropdown
         text="My Info"
         toggle-class="nav-link-custom"
