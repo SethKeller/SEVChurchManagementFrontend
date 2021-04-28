@@ -2,6 +2,16 @@
 <div class=" ">
     <h1 class="pb-3"> Member List</h1>
     <h3>{{ message }}</h3>
+     <b-button v-b-modal.modal-1 variant="primary">Register Member</b-button>
+
+    <b-modal id="modal-1" title="Register Member" hide-backdrop>
+      <RegisterForm
+        :member="member"
+        v-on:formSubmitted="submitForm"
+        style="width:70% max-width:540px"
+        class="mx-auto"
+      />
+    </b-modal>
     <Search v-on:search-submitted="doSearch" class="m-auto pb-3" style="width:340px" />
     <div id="page-buttons">
         <!--button v-on:click="prevPage">Prev</button>
@@ -22,6 +32,7 @@
 </template>
 
 <script>
+import RegisterForm from "../components/RegisterForm";
 import MemberInfo from "@/components/Listmember.vue";
 import MemberListServices from "@/services/MemberListServices.js";
 import Search from "@/components/Search.vue";
@@ -30,7 +41,7 @@ export default {
   components: {
     MemberInfo,
     Search,
-    
+    RegisterForm
   },
   props: {},
   data() {
@@ -38,7 +49,12 @@ export default {
       members: [],
       message: "Loading...",
       page: 1,
-      searchQuery: ""
+      searchQuery: "",
+      member: {
+        FirstName: "Jane",
+        LastName: "Doe",
+        CongregationId: 1
+      },
     };
   },
   methods: {
