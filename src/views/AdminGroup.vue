@@ -2,7 +2,7 @@
    <div>
        <h3>Groups</h3>
        <crud-table
-               endpoint="http://localhost:8080/api/groups/"
+               :endpoint="getEndpoint()"
                :columns="['Name','Type','action']"
                :form-fields="{
                name: ''
@@ -40,7 +40,14 @@
 
    export default {
        components: {CrudTable},
-   
+       methods: {
+           // API base request URL from environment
+           getEndpoint: function() {
+            return (process.env.NODE_ENV === "development"
+                ? "http://localhost:8080/api/groups/"
+                : "/api/groups/");
+           }
+       }
    };
    
 </script>

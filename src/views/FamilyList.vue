@@ -2,7 +2,7 @@
    <div>
        <h3>Families</h3>
        <crud-table
-               endpoint="http://localhost:8080/api/familys/"
+               :endpoint="getEndpoint()"
                :columns="['FamilyName','action']"
                :form-fields="{
                name: ''
@@ -32,7 +32,14 @@
 
    export default {
        components: {CrudTable},
-   
+       methods: {
+           // API base request URL from environment
+           getEndpoint: function() {
+            return (process.env.NODE_ENV === "development"
+                ? "http://localhost:8080/api/familys/"
+                : "/api/familys/");
+           }
+       }
    };
    
 </script>
