@@ -17,7 +17,8 @@
           <div>
             <MemberEditInfo
               :member="member"
-               v-on:formSubmitted="submitForm(member.id)"
+              canEdit="true"
+              v-on:formSubmitted="submitForm(member.id)"
             />
           </div>
         </div>
@@ -31,6 +32,7 @@
 
 <script>
 import MemberEditInfo from "@/components/MemberEditInfo.vue";
+import MemberInfoServices from "@/services/Member-InfoServices.js";
 
 export default {
     name: "MemberInfo",
@@ -49,7 +51,24 @@ methods: {
         onDelete (){
             console.log("DELET THIS");
             this.$emit("delete-pressed", this.member.id);
-        } 
+        },
+        submitForm(id) {
+          var hasError = false;
+
+          MemberInfoServices.updatePeople(id, this.member)
+            .then(() => {
+              console.log("Member updated!");
+            })
+            .catch((error) => {
+              console.error(error);
+              hasError = true;
+            });
+
+          if (!hasError) {
+              // Close the edit modal
+              this.$bvModal.hide("id-"+this.member.id);
+          }
+        },
     }
 };
 </script>

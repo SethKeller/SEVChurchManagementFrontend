@@ -16,6 +16,7 @@
         </tr>   
         <MemberInfo v-for="member in members" :key="member.LASTNAME" :member="member" v-on:edit-pressed="editMember" v-on:delete-pressed="deleteMember"/>
     </table>
+    <br/>
     
 </div>
 </template>
