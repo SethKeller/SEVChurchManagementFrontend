@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="mx-auto">Picture Upload Test:</h2>
-    <PictureUpload :member="member" class="mx-auto" style="width:800px;" />
+    <PictureUpload :member="member" :canEdit="true" class="mx-auto" style="width:800px;" />
   </div>
 </template>
 

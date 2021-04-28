@@ -11,7 +11,7 @@
     >
         {{ alertMessage }}
     </b-alert>
-    <MemberEditInfo :member="member" v-on:formSubmitted="submitForm" style="width:70%;max-width:540px" class="mx-auto" />
+    <MemberEditInfo :member="member" :canEdit="true" v-on:formSubmitted="submitForm" style="width:70%;max-width:540px" class="mx-auto" />
   </div>
 </template>
 

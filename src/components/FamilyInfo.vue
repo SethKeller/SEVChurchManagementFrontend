@@ -16,7 +16,7 @@
             {{ member.Email }}<br />
             {{ member.Phone }}
           </b-card-text>
-          <b-card-text>
+          <b-card-text v-show="canEdit">
             <b-button v-b-modal="`id-${member.id}`" variant="primary" style="margin-top:-8px;">
               Edit
             </b-button>
@@ -30,7 +30,8 @@
           <div>
             <MemberEditInfo
               :member="member"
-               v-on:formSubmitted="submitForm(member.id)"
+              :canEdit="canEdit"
+              v-on:formSubmitted="submitMember(member.id)"
             />
             <b-alert
               dismissible
@@ -43,7 +44,13 @@
             >
                 {{ alertMessage }}
             </b-alert>
-           
+            <div>
+              <AddressEdit
+              :member="member"
+               v-on:formSubmitted="addressSuccess"
+               v-on:formError="addressError"
+              />
+            </div>
           </div>
         </div>
       </b-modal>
@@ -65,7 +72,8 @@ export default {
   
   },
   props: {
-    member: Object
+    member: Object,
+    canEdit: Boolean
   },
    data() {
     return {
@@ -79,7 +87,7 @@ export default {
     picturePath: function() {
       return MemberInfoServices.getPictureRootPath();
     },
-    submitForm(id) {
+    submitMember(id) {
       var hasError = false,
           errorMessage = "";
       
@@ -122,12 +130,24 @@ export default {
           this.message = error.response.data.message;
         });
     },
+    addressSuccess() {
+      // Show success alert
+      this.alertMessage = 'Address updated!';
+      this.alertType = 'success';
+      this.alertCountdown = 4;
+    },
+    addressError() {
+      // Show error alert
+      this.alertMessage = "There was an error saving the address";
+      this.alertType = 'error';
+      this.alertCountdown = 4;
+    },
     alertCountdownChanged(countdown) {
       this.alertCountdown = countdown;
     }
   },
   created() {
-      this.getAddress(this.member.id);
+    this.getAddress(this.member.id);
     // Test data if info card was not created with a member object
     if (this.member == undefined) {
       this.member = {
