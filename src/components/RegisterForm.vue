@@ -352,7 +352,7 @@ export default {
       };
     },
     verifyEmail() {
-      return (
+      return (this.member.Email != undefined && this.member.Email != null) && (
         this.member.Email.includes("@") &&
         this.member.Email.indexOf("@") != this.member.Email.length-3 &&
         this.member.Email.indexOf(".") > this.member.Email.indexOf("@") &&
