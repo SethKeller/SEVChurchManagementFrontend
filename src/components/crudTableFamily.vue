@@ -10,7 +10,7 @@
             </template>
         </b-table>
 
-        <b-modal v-model="modalShow" :title="formTitle" hide-footer>
+        <b-modal v-model="modalShow" :title="formTitle" hide-footer hide-backdrop>
             <b-form @submit.prevent="save">
                 <slot :formdata="editedItem" name="input-fields">
                 </slot>
