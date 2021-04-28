@@ -17,41 +17,36 @@
             {{ member.Phone }}
           </b-card-text>
           <b-card-text>
-            <b-button v-b-toggle="`id-${member.id}`" variant="primary">
-              Edit</b-button
-            >
+            <b-button v-b-modal="`id-${member.id}`" variant="primary" style="margin-top:-8px;">
+              Edit
+            </b-button>
           </b-card-text>
         </b-card-body>
       </b-col>
     </b-row>
     <b-row md="12" class="mx-auto" style="width:100%;">
-      <b-alert
-        dismissible
-        style="width:90%"
-        class="mx-auto"
-        :variant="alertType"
-        :show="alertCountdown"
-        @dismissed="dismissCountdown = 0"
-        @dismiss-count-down="alertCountdownChanged"
-      >
-          {{ alertMessage }}
-      </b-alert>
-      <b-collapse :id="`id-${member.id}`" title="Sidebar" right shadow style="width:100%;">
+      <b-modal :id="`id-${member.id}`" :title="'Edit Member - '+member.FirstName+' '+member.LastName" shadow hide-backdrop ok-only>
         <div class="px-3 py-2">
           <div>
             <MemberEditInfo
               :member="member"
                v-on:formSubmitted="submitForm(member.id)"
             />
-            <div>
-              <AddressEdit
-              :member="member"
-               v-on:formSubmitted="submitForm(address.id)"
-              />
-            </div>
+            <b-alert
+              dismissible
+              style="width:90%"
+              class="mx-auto mt-3"
+              :variant="alertType"
+              :show="alertCountdown"
+              @dismissed="dismissCountdown = 0"
+              @dismiss-count-down="alertCountdownChanged"
+            >
+                {{ alertMessage }}
+            </b-alert>
+           
           </div>
         </div>
-      </b-collapse>
+      </b-modal>
     </b-row>
   </b-card>
 </template>
@@ -60,14 +55,14 @@
 import MemberEditInfo from "../components/MemberEditInfo";
 import MemberInfoServices from "../services/Member-InfoServices";
 
-import AddressEdit from "../components/AddressEdit";
+//import AddressEdit from "../components/AddressEdit";
 import AddressService from "../services/AddressServices";
 
 export default {
   name: "MemberInfo",
   components: {
     MemberEditInfo,
-    AddressEdit
+  
   },
   props: {
     member: Object
@@ -96,15 +91,7 @@ export default {
           errorMessage = error.response;
           hasError = true;
         });
-      //var address =this.getAddress(this.member.id)
-      AddressService.updateAddress(this.address.id, this.address)
-        .then(() => {
-          console.log("Address updated!");
-        })
-        .catch((error) => {
-          errorMessage = error.response;
-          hasError = true;
-        });
+     
       
       if (!hasError) {
           // Show success alert
@@ -135,6 +122,9 @@ export default {
           this.message = error.response.data.message;
         });
     },
+    alertCountdownChanged(countdown) {
+      this.alertCountdown = countdown;
+    }
   },
   created() {
       this.getAddress(this.member.id);

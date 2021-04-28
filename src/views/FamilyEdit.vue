@@ -126,7 +126,7 @@
 <script>
 import FamilyInfo from "@/components/FamilyInfo";
 import FamilyInfoServices from "../services/FamilyMemberServices";
-import AddressService from "../services/AddressServices";
+//import AddressService from "../services/AddressServices";
 import MemberService from "../services/MemberListServices";
 
 export default {
@@ -191,14 +191,14 @@ export default {
           errorMessage = "";
       
       // Update data in the database
-      AddressService.updateAddress(this.headAddress.id, this.headAddress)
-        .then(() => {
-          console.log("Address updated!");
-        })
-        .catch((error) => {
-          errorMessage = error.response;
-          hasError = true;
-        });
+      // AddressService.updateAddress(this.headAddress.id, this.headAddress)
+      //   .then(() => {
+      //     console.log("Address updated!");
+      //   })
+      //   .catch((error) => {
+      //     errorMessage = error.response;
+      //     hasError = true;
+      //   });
       FamilyInfoServices.updateFamily(this.family.id, this.family)
         .then(() => {
           console.log("Family updated!");
