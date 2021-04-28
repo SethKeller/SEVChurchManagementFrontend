@@ -320,8 +320,11 @@ export default {
         .then(res => {
           res.data.forEach(family => {
             // get address from head of family
-            if (this.getHeadAddress(family).text) {
-              this.addresses.push(this.getHeadAddress(family));
+            let headAddress = this.getHeadAddress(family).text;
+            if (headAddress) {
+              if (this.addresses.filter(a => a == headAddress).length == 0) {
+                this.addresses.push(headAddress);
+              }
             }
 
             // check if incoming family is already in selection list
