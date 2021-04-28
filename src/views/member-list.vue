@@ -2,7 +2,8 @@
 <div class=" ">
     <h1 class="pb-3"> Member List</h1>
     <h3>{{ message }}</h3>
-     <b-button v-b-modal.modal-1 variant="primary">Register Member</b-button>
+    <b-button v-b-modal.modal-1 variant="primary">Register Member</b-button>
+    <br/><br/>
 
     <b-modal id="modal-1" title="Register Member" hide-backdrop>
       <RegisterForm

@@ -24,6 +24,7 @@
         </div>
       </b-modal>
       <b-modal :id="`id-${member.id}-delete`" title= "Are you sure?" shadow hide-backdrop @ok="onDelete()">
+          Please confirm you would like to delete <strong>{{ member.FirstName }} {{ member.LastName }}</strong>
       </b-modal>  
     </div>
     

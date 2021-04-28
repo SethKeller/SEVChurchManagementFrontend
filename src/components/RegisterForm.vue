@@ -38,6 +38,7 @@
               v-model="member.Email"
               required
               placeholder="Email"
+              :state="verifyEmail()"
             ></b-form-input>
           </b-col>
         </b-row>
@@ -349,6 +350,14 @@ export default {
         value: address,
         text: addressStr
       };
+    },
+    verifyEmail() {
+      return (
+        this.member.Email.includes("@") &&
+        this.member.Email.indexOf("@") != this.member.Email.length-3 &&
+        this.member.Email.indexOf(".") > this.member.Email.indexOf("@") &&
+        this.member.Email.indexOf(".") != this.member.Email.length-1
+      ) ? null : false;
     }
   }
 };
