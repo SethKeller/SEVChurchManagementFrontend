@@ -346,7 +346,7 @@ export default {
         if (person.addresses[0]) address = person.addresses[0];
       });
       if (address)
-        addressStr = `${address.HouseNumber} ${address.Street} ${address.City} ${address.State}`;
+        addressStr = `${address.HouseNumber} ${address.Street} ${address.City} ${address.State} ${address.Zipcode}`;
 
       return {
         value: address,
