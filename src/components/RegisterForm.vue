@@ -267,7 +267,7 @@ export default {
       // set user family
       this.member.FamilyId = this.selected;
       // set user permissions for system
-      this.member.Roles = this.permissions;
+      this.member.Roles = this.selectedPermissions;
       // set default date to change later
       this.member.DateofBirth = new Date();
 
@@ -320,9 +320,9 @@ export default {
         .then(res => {
           res.data.forEach(family => {
             // get address from head of family
-            let headAddress = this.getHeadAddress(family).text;
-            if (headAddress) {
-              if (this.addresses.filter(a => a == headAddress).length == 0) {
+            let headAddress = this.getHeadAddress(family);
+            if (headAddress.text) {
+              if (this.addresses.filter(a => a == headAddress.text).length == 0) {
                 this.addresses.push(headAddress);
               }
             }
